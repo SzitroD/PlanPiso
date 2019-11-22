@@ -1,0 +1,152 @@
+@font-face{
+	font-family: "Gotham-Bold";
+	src: url('../fonts/gotham/GothamBold.ttf');
+	font-family: "Gotham";
+	src: url('../fonts/gotham/GothamMedium.ttf');	
+}
+
+html,body{
+	margin: 0px;
+	padding:0px;
+	font-size: 16px;
+        background-image: url('../img/background.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+	background-attachment: fixed;
+}
+
+.contenedor-general{
+    width: 100%;
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.contenedor-logo-general{
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-logo{
+	height: 60%;
+	width: 80%;
+	display: flex;
+	justify-content: center;
+}
+
+.logo{
+	height: 90%;
+}
+
+.contenedor-formulario{
+    width: 80%;
+    height: 280px;
+    background-color: white;
+    border: 1px solid #545973;
+}
+
+.contenedor-titulo{
+	width: 100%;
+	height: 20%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+        background-color: #16254C;
+}
+
+.titulo{
+        padding: 0px;
+        margin: 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+        width: 100%; 
+        height: 50%;
+	color: white;
+	font-family: Gotham-Bold;
+        font-size: 1.1em;
+}
+
+.form-inicio{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+input{
+    width: 75%;
+    height: 35px;
+    font-family: Gotham;
+    font-size: .9em;
+    border: 1px solid #16254C;
+}
+
+.btn-enviar{
+        height: 45px;
+        color: white;
+        font-family: Gotham-Bold;
+	background: #16254C;
+	cursor: pointer;
+	font-size: 1.2em;
+}
+
+@media screen and (min-width: 576px){
+    .contenedor-formulario{
+        height: 300px;
+        width: 70%;
+    }
+    .titulo{
+        font-size: 1.2em;
+    }
+    input{
+        border: 2px solid #545973;
+        height: 40px;
+        font-size: 1em;
+    }
+    .btn-enviar{
+        font-size: 1.3em;
+        height: 50px;
+    }
+}
+
+@media screen and (min-width: 767px){
+    .contenedor-logo-general{
+        height: 180px;
+    }
+    .contenedor-formulario{
+        width: 45%;
+        height: 330px;
+        border: 2px solid #545973;
+    }
+    input{
+        border: 2px solid #545973;
+       
+    } 
+}
+
+@media screen and (min-width: 992px){
+    .titulo{
+        font-size: 1.3em;
+    }
+    .contenedor-logo-general{
+        height: 200px;
+    }
+    input{
+        font-size: 1.1em;
+    }
+}
+
+@media screen and (min-width: 1200px){
+   .contenedor-formulario{
+        width: 35%;
+        height: 380px;
+    }
+    
+}

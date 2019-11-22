@@ -1,0 +1,163 @@
+@font-face{
+	font-family: "Gotham-Bold";
+	src: url('../fonts/gotham/GothamBold.ttf');
+	font-family: "Gotham";
+	src: url('../fonts/gotham/GothamMedium.ttf');	
+}
+
+html,body{
+	margin: 0px;
+	padding: 0px;
+	font-size: 16px;
+        background-image: url('../img/background.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+	background-attachment: fixed;
+}
+
+.contenedor-titulo{
+	width: 100%;
+	height: 40px;
+	background-color: #DFDFDF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.titulo-secundario{
+	background-color: #DBDEE4;
+}
+
+.titulo{
+	color: #0D0D0D;
+	font-family: Gotham-Bold;
+        font-size: 1.1em;
+}
+
+.contenedor-busqueda{
+	width: 100%;
+	height: 60px;
+}
+
+.form-busqueda{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+input{
+	font-family: Gotham;
+	height: 35px;
+        font-size: .8em;
+}
+
+.search{
+	width: 70%;
+}
+
+.btn-enviar{
+	width: 30%;
+	cursor: pointer;
+}
+
+.contendor-tabla{
+	width: 100%;
+	height: 250px;
+	overflow: scroll;
+}
+
+.table{
+	background-color: white;	
+	border-collapse: collapse;
+	text-align: center;
+	border:2px solid black;
+        font-family: Gotham;
+        font-size: .8em;
+}
+
+.thead{
+
+}
+
+.tbody{
+
+}
+
+th,td{
+	height: 20px;
+	border: 1px solid #BFBFBF;
+}
+
+.ultimo-contenido{
+        margin-bottom: 55px;
+}
+
+/**************************************************************/
+
+@media screen and (min-width: 576px){
+	.table{
+		font-size: .9em;
+	}
+	.contenedor-titulo{
+		justify-content: flex-start;
+	}
+	.titulo{
+		padding-left: 30px;
+                font-size: 1.2em;
+	}
+	input{
+		height: 30px;
+                font-size: .9em;
+	}
+	.search{
+		width: 60%;
+	}
+	.btn-enviar{
+		width: 20%;
+	}
+
+}
+
+@media screen and (min-width: 768px){
+	.form-busqueda{
+		justify-content: flex-end;
+	}
+
+	input{
+                font-size: 1em;
+	}
+	.titulo{
+                font-size: 1.3em;
+	}
+	.search{
+		width: 40%;
+	}
+	.btn-enviar{
+		width: 15%;
+		margin-right: 30px;
+	}
+}
+
+@media screen and (min-width: 992px){
+	.tabla{
+		width: 80%;
+		font-size: .95em;
+	}
+        .contendor-tabla{
+            display: flex;
+            justify-content:center;
+        }
+}
+
+@media screen and (min-width: 1200px){
+	input{
+		height: 35px;
+		font-size: 1em;
+	}
+	.table{
+		font-size: 1.1em;
+	}
+}

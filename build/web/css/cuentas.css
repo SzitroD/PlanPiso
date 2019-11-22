@@ -1,0 +1,173 @@
+@font-face{
+	font-family: "Gotham-Bold";
+	src: url('../fonts/gotham/GothamBold.ttf');
+	font-family: "Gotham";
+	src: url('../fonts/gotham/GothamMedium.ttf');	
+}
+
+html,body{
+	margin: 0px;
+	padding:0px;
+	font-size: 16px;
+        background-image: url('../img/background.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+	background-attachment: fixed;
+        background-position: center;
+}
+
+.contenedor-titulo{
+	width: 100%;
+	height: 40px;
+	background-color: #DFDFDF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.titulo{
+	color: #0D0D0D;
+	font-family: Gotham-Bold;
+        font-size: 1.1em;
+}
+
+.titulo-secundario{
+	background-color: #DBDEE4;
+	display: flex;
+	justify-content: space-around;
+}
+
+.contenedor-btn-reporte{
+	width: 100%;
+	height: 80px;
+	display: flex;
+	align-items: center;
+        justify-content:center;
+}
+
+.btn{
+	background-color: #023059;
+	color: white;
+	cursor: pointer;
+        padding: 15px;
+        margin: 0px 15px;
+        font-family: Gotham;
+        border: 1px solid #BFBFBF;
+}
+
+.contenedor-general{
+        width: 100%;
+}
+
+.contendor-tabla{
+        width: 100%;
+        overflow-x: scroll;
+}
+
+.table{
+	background-color: white;	
+	border-collapse: collapse;
+	text-align: center;
+	border:2px solid black;
+        font-family: Gotham;
+        font-size: .8em;
+}
+
+.thead,
+.td-resultado{
+        background-color: #BFBFBF;
+}
+.td-resultado{
+    
+        font-family: Gotham;
+}
+.tbody{
+
+}
+
+th,td{
+	height: 20px;
+	border: 1px solid #BFBFBF;
+}
+
+.fila-total{
+        color: white;
+        background-color: #16254C;
+}
+
+.ultimo-contenido{
+        margin-bottom: 55px;
+}
+
+/**********************************************************/
+
+@media screen and (min-width: 576px){
+	.table{
+		font-size: .9em;
+	}
+	.contenedor-titulo{
+		justify-content: flex-start;
+	}
+	.titulo{
+		padding-left: 30px;
+                font-size: 1.2em;
+	}
+	.titulo-secundario{
+		justify-content: flex-start;
+	}
+
+}
+
+@media screen and (min-width: 768px){
+	.form-btn{	
+		grid-template-columns: repeat(4,20%);
+	}
+        .contendor-tabla{
+                display: flex;
+                justify-content:center;
+                align-items:center;
+        }
+	.titulo{
+                font-size: 1.3em;
+	}
+        .btn-guardar{
+                padding: 10px 15px;
+                font-size: 1em;
+        }
+}
+
+@media screen and (min-width: 992px){
+	.form-btn{	
+		grid-template-columns: repeat(4,23%);
+	}
+        .btn-guardar{
+                padding: 10px 20px;
+                font-size: 1.1em;
+        }.tabla{
+		width: 80%;
+		font-size: .95em;
+	}
+}
+
+@media screen and (min-width: 1200px){
+	.contenedor-btn-financiera{
+		height: 150px;
+	}
+	.form-btn{	
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.btn{
+		height: 60px;
+		padding:0px 15px;
+	}
+	.table{
+		font-size: 1.1em;
+	}
+        .btn-guardar{
+                padding: 10px 25px;
+                font-size: 1.2em;
+        }
+}

@@ -1,0 +1,99 @@
+package modelo;
+
+public class Bancos {
+    private int idBancos;
+    private String nombreBanco;
+    private double interes;
+    private int diasFinanciamiento;
+    private double interesExtra;
+    private int diasExtra;
+    private int diasLibres;
+    private int status;
+
+    public Bancos() {
+        this.idBancos = 0;
+        this.nombreBanco = "";
+        this.interes = 0;
+        this.diasFinanciamiento = 0;
+        this.interesExtra = 0;
+        this.diasExtra = 0;
+        this.diasLibres = 0;
+        this.status = 0;
+    }
+    
+    public Bancos(int status,int idBancos, String nombreBanco, double interes, int diasFinanciamiento, double interesExtra, int diasExtra, int diasLibres) {
+        this.idBancos = idBancos;
+        this.nombreBanco = nombreBanco;
+        this.interes = interes;
+        this.diasFinanciamiento = diasFinanciamiento;
+        this.interesExtra = interesExtra;
+        this.diasExtra = diasExtra;
+        this.diasLibres = diasLibres;
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
+    public int getIdBancos() {
+        return idBancos;
+    }
+
+    public void setIdBancos(int idBancos) {
+        this.idBancos = idBancos;
+    }
+
+    public String getNombreBanco() {
+        return nombreBanco;
+    }
+
+    public void setNombreBanco(String nombreBanco) {
+        this.nombreBanco = nombreBanco;
+    }
+
+    public double getInteres() {
+        return interes;
+    }
+
+    public void setInteres(double interes) {
+        this.interes = interes;
+    }
+
+    public int getDiasFinanciamiento() {
+        return diasFinanciamiento;
+    }
+
+    public void setDiasFinanciamiento(int diasFinanciamiento) {
+        this.diasFinanciamiento = diasFinanciamiento;
+    }
+
+    public double getInteresExtra() {
+        return interesExtra;
+    }
+
+    public void setInteresExtra(double interesExtra) {
+        this.interesExtra = interesExtra;
+    }
+
+    public int getDiasExtra() {
+        return diasExtra;
+    }
+
+    public void setDiasExtra(int diasExtra) {
+        this.diasExtra = diasExtra;
+    }
+
+    public int getDiasLibres() {
+        return diasLibres;
+    }
+
+    public void setDiasLibres(int diasLibres) {
+        this.diasLibres = diasLibres;
+    }
+    
+}
