@@ -1,7 +1,7 @@
 package control;
 
 import dao.FinanciarDAO;
-import dao.VehiculosDAO;
+import modelo.Financiar;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +33,7 @@ public class ControlCompras extends HttpServlet {
                     for(int i = 1; i <= repeticiones; i++){
                    
                         int idBanco = 0;
+                        int diaR = 0;
                         String statusFinanciamiento = null;
                         String vin = null;
                         String fechaString = null;
@@ -95,8 +96,15 @@ public class ControlCompras extends HttpServlet {
                         
                         FinanciarDAO f = new FinanciarDAO();
                         
+                        for(Financiar fi : FinanciarDAO.listarFinanciamiento()){
+                            if(fi.getIdBanco() == idBanco){
+                                diaR = fi.getDiasReales();
+                            }
+                        }
+                        
                         if(statusFinanciamiento.equals("REFINANCIADA")){
                             fechaString = fechaActual;
+                            diasReales = diaR;
                                 if((idBanco != 0) && (vin != null) && (vin != null) && (fechaString != null) && 
                                 (diasReales >= 0) && (prioridad != null) && (observaciones != null) && 
                                 (interesReal >= 0) && (statusFinanciamiento != null)){
@@ -107,7 +115,7 @@ public class ControlCompras extends HttpServlet {
                                     System.out.println("Error al actualizar");
                                 }
                         }else{
-                            fechaString = fechaActual;
+                           
                                 if((idBanco != 0) && (vin != null) && (vin != null) && (fechaString != null) && 
                                 (diasReales >= 0) && (prioridad != null) && (observaciones != null) && 
                                 (interesReal >= 0) && (statusFinanciamiento != null)){

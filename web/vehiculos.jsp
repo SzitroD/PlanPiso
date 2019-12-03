@@ -52,10 +52,36 @@
         <h3 class="titulo">Cargar archivo de conciliaciones</h3>
     </div>
 
+    <%
+        List<String> listaFinanciera = new ArrayList();
+        String[] lista = null;
+        int i = 0;
+
+        for(Bancos b: BancosDAO.listarBancos()){
+            if(b.getStatus()==1){
+                 lista = b.getNombreBanco().split(" ");
+                 if(listaFinanciera.size()==0){
+                     listaFinanciera.add(lista[0].trim());
+                 }else if(listaFinanciera.size() > 0 && !(listaFinanciera.get(i).equals(lista[0].trim()))){
+                     listaFinanciera.add(lista[0].trim()); 
+                     i++;
+                 }
+            }
+        }
+    
+    %>
+    
     <div class="contenedor-btn-csv">
         <form class="form-csv" method="post" action="ControlVehiculos" enctype="multipart/form-data">
+            <label for="financiera" class="titulo-input">Elige a que financiera pertenece la conciliacion</label>
+            <select name="financiera">
+                <% for(int j = 0; j < listaFinanciera.size(); j++){ %>
+                <option value="<%= listaFinanciera.get(j) %>"> <%= listaFinanciera.get(j) %> </option>
+                <% } %>
+            </select>
             <label for="archivo" class="titulo-input">Seleccione un archivo en formato CSV para la carga de conciliaciones</label>
             <input type="file" name="archivo">
+            <input type="hidden" name="tipo" value="conciliacion">
             <input class="btn-actualizar" type="submit" name="accion" value="Subir Conciliacion">
         </form>
     </div>
@@ -118,10 +144,6 @@
                                 <input type="hidden" name="fechaActual" value="<%= fechaString %>">
                                 <input type="hidden" name="fechaCompra" value="<%= v.getFechaCompra() %>">
                                 <input type="hidden" name="status" value="FINANCIADA" >
-                              <!--  <label for="diasReales">Dias financiamiento </label> -->
-                                <input class="opciones-form" type="hidden" name="diasReales" value="0">
-                              <!--   <label for="interesReal"></label> -->
-                                <input class="opciones-form" type="hidden" name="interesReal" value="0">
                                 <input class="btn-actualizar" type="submit" name="accion" value="Financiar">
                             </form>
                         </td>

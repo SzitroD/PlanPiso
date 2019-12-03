@@ -57,6 +57,8 @@ html,body{
 
 .contenedor-general{
         width: 100%;
+        height: 350px;
+        overflow-y: scroll;
 
 }
 

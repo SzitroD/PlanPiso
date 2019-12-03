@@ -2,6 +2,7 @@ package control;
 
 import dao.BancosDAO;
 import dao.FinanciarDAO;
+import dao.ReportesDAO;
 import dao.VehiculosDAO;
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -52,6 +54,7 @@ public class ControlVehiculos extends HttpServlet {
         double interesReal = 0;
         String fechaCompra = null;
         String Banco = null;
+        int diasReal = 0;
         
         
         final String SEPARATOR=";";
@@ -63,7 +66,7 @@ public class ControlVehiculos extends HttpServlet {
         double valorCarga = 0; 
         
         FinanciarDAO f = new FinanciarDAO();
-        VehiculosDAO v = new VehiculosDAO();
+        ReportesDAO r = new ReportesDAO();
         
         switch(accion){
             case "Financiar":
@@ -72,9 +75,7 @@ public class ControlVehiculos extends HttpServlet {
                 fechaActual = request.getParameter("fechaActual");
                 vin = request.getParameter("vin");
                 status = request.getParameter("status");
-                interesReal = Integer.parseInt(request.getParameter("interesReal"));
                 fechaCompra = request.getParameter("fechaCompra");
-                
                 /*    System.out.println("vin:" +vin);
                 System.out.println("statsu:" +status);
                 System.out.println("financiera:" +idBanco);
@@ -84,16 +85,19 @@ public class ControlVehiculos extends HttpServlet {
                 for(Bancos b: BancosDAO.listarBancos()){
                     if(b.getIdBancos() == idBanco){
                         Banco = b.getNombreBanco();
+                        diasReal = b.getDiasFinanciamiento();
+                        interesReal = b.getInteres();
                     }
                 }
                 
                 int bandera = Banco.indexOf("FCA");
                 
-                if((idBanco != 0) && (vin != null && (fechaActual != null) && (status != null) && (interesReal >= 0) && (fechaCompra != null)) ){
+                if((idBanco != 0) && (vin != null && (fechaActual != null) && (status != null) && (interesReal >= 0) && (fechaCompra != null)) 
+                        && (diasReal >= 0)){
                     if(bandera == 0){
-                        f.insertarFinanciamiento(vin,idBanco, fechaCompra,interesReal);
+                        f.insertarFinanciamiento(vin,idBanco, fechaCompra,interesReal, diasReal);
                     }else{
-                        f.insertarFinanciamiento(vin,idBanco, fechaActual,interesReal);
+                        f.insertarFinanciamiento(vin,idBanco, fechaActual,interesReal, diasReal);
                     }
                     //v.modificarVehiculo(status, vin, diasReales);
                     //System.out.println("SI se financio el vehiculo");
@@ -104,19 +108,37 @@ public class ControlVehiculos extends HttpServlet {
                 request.getRequestDispatcher("vehiculos.jsp").forward(request, response);
                 break;
             case "Subir Conciliacion":
-
-                final String ruta = "C:/planpiso/respaldo_csv";
+                
+                int posicion = 0;
+                String nombre = null;
+                int total_vehiculos = 0;
+                double total_cf = 0;
+                
+                String tipo = request.getParameter("tipo");
+                String financiera = request.getParameter("financiera");
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                String fecha = formato.format(new Date());
+                
+                final String ruta = "C:/planpiso/respaldo_archivos";
+                final String ruta2 = "C:\\glassfish4\\glassfish\\domains\\domain1\\applications\\PlanPiso\\archivos";
                 final Part archivo = request.getPart("archivo");
                 nombre_archivo = getFileName(archivo);
                 OutputStream salida = null;
+                OutputStream salida2 = null;
                 InputStream contenido = null;
+                
                 File folder = new File(ruta);
                 if(!folder.isDirectory()) {
                     folder.mkdirs();
                 }
         
+                File folder2 = new File(ruta2);
+                if(!folder2.isDirectory()) {
+                    folder2.mkdirs();
+                }
                 try {
                     salida = new FileOutputStream(new File(ruta + File.separator + nombre_archivo));
+                    salida2 = new FileOutputStream(new File(ruta2 + File.separator + nombre_archivo));
                     contenido = archivo.getInputStream();
                     int read = 0;
                     final byte[] bytes = new byte[1024];
@@ -129,13 +151,16 @@ public class ControlVehiculos extends HttpServlet {
                     if (salida != null) {
                         salida.close();
                     }
+                    if (salida2 != null) {
+                        salida2.close();
+                    }
                     if (contenido != null) {
                         contenido.close();
                     }
                 }
                 
                 try {
-                    br =new BufferedReader(new FileReader("C:\\planpiso\\respaldo_csv\\"+nombre_archivo+""));
+                    br =new BufferedReader(new FileReader("C:\\planpiso\\respaldo_archivos\\"+nombre_archivo+""));
                     String line = br.readLine();
                     boolean banderaCSV = false;
                     while (null!=line) {
@@ -155,11 +180,16 @@ public class ControlVehiculos extends HttpServlet {
                             str = fields[0].substring(posicionBusqueda+1,tamañoCadena);
                             valorCarga = Double.parseDouble(str);
                         
-                            System.out.println("STR: "+str); 
-                            System.out.println("line: "+line); 
-                            System.out.println("VIN: "+vinCarga); 
-                            System.out.println("VALOR: "+valorCarga); 
-
+                            total_vehiculos++;
+                            total_cf += valorCarga; 
+                            
+                            /*System.out.println("STR: "+str);
+                            System.out.println("line: "+line);
+                            System.out.println("VIN: "+vinCarga);
+                            System.out.println("VALOR: "+valorCarga);
+                            System.out.println("TOTAL VEHICULOS: "+total_vehiculos);
+                            System.out.println("TOTAL CF: "+total_cf); */
+                            
                             f.cargarConciliacion(valorCarga, vinCarga);
                         }
                         banderaCSV = true;
@@ -171,6 +201,11 @@ public class ControlVehiculos extends HttpServlet {
                     br.close();
                     }
                 }
+                
+                posicion = nombre_archivo.indexOf(".");
+                nombre = nombre_archivo.substring(0, posicion);
+                
+                r.insertarConciliacion(nombre, nombre_archivo, tipo, financiera, fecha);
                 
                 request.getRequestDispatcher("vehiculos.jsp").forward(request, response);
                 

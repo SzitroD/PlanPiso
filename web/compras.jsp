@@ -49,7 +49,7 @@
     <div class="contenedor-busqueda">
         <form action="ControlCompras" method="get" class="form-busqueda">
             <input type="search" name="busqueda" placeholder="Vin del Vehiculo" class="search">
-            <input type="submit" name="accion" value="Buscar" class="btn-enviar">
+            <input type="submit" name="accionVin" value="Buscar" class="btn-enviar">
         </form>
     </div>
     
@@ -58,7 +58,7 @@
         <% for(Bancos b : BancosDAO.listarBancos()){ 
                 if(b.getStatus() == 1){
         %>
-            <input class="btn" type="submit" name="accion" value="<%= b.getNombreBanco() %>">
+            <input class="btn" type="submit" name="accionFin" value="<%= b.getNombreBanco() %>">
         <% } 
         }
         %>
@@ -112,14 +112,18 @@
                 </thead>
                 <tbody class="tbody">
             <%  
-                String accion = null;
+                String financiera = null;
+                String Busqueda = null;
                 try{
-                accion = request.getParameter("accion");
+                    Busqueda = request.getParameter("busqueda");
                 }catch(Exception e){
-                    System.out.println("error al recibir accion "+e);
-                }
-                String financiera = "";
-                String Busqueda = "";
+                    System.out.println("Error al recibir busqueda: "+e.getLocalizedMessage());
+                }   
+                try{
+                    financiera = request.getParameter("accionFin");
+                }catch(Exception e){
+                    System.out.println("Error al recibir financiera: "+e.getLocalizedMessage());
+                } 
                 int i = 0;
                 double impPago = 0;
                 double diferencia = 0;
@@ -128,10 +132,11 @@
 
                 String observacion = null;
                 
-                if(accion != null){
-                if(accion.equals("Buscar")){
-                    Busqueda = request.getParameter("busqueda");
-        
+                if(Busqueda != null){
+                
+                    System.out.println("Busqueda ++: "+Busqueda);
+                    System.out.println("Financiera: "+financiera);
+                    
                     for(VistaCompras v: VistasDAO.buscarCompraVin(Busqueda)){ 
                         if(v.getStatusBanco()==1){
                         i++;
@@ -164,8 +169,10 @@
                                     $(document).ready(function(){
                                         var status = $("select[name = statusFinanciamiento_<%= i %>]");
                                         var fecha = $("input[name = fechaFinan_<%= i %>]");
+                                        var diasR = $("input[name = diasReales_<%= i %>]");
                                         if(status.val() == 'REFINANCIADA'){
                                             fecha.prop('disabled','disabled');
+                                            diasR.prop('disabled','disabled');
                                         }
                                     });
                                    
@@ -243,8 +250,10 @@
                     <%  }          //System.out.println("Iteraciones : "+ i);
                     }
                                 //System.out.println("Total Repeticiones: "+ i);
-                }else{ 
-                    financiera = accion;
+                }else if(financiera != null){ 
+                    
+                    System.out.println("Busqueda: "+Busqueda);
+                    System.out.println("Financiera ++: "+financiera);
                     for(VistaCompras v: VistasDAO.buscarCompraFinanciera(financiera)){ 
                         if(v.getStatusBanco() == 1){
                         i++;
@@ -269,15 +278,18 @@
                                 <option value="FINANCIADA" > FINANCIADA </option>
                                 <option value="REFINANCIADA" > REFINANCIADA </option>
                             </select> 
-                                <script>
+                               <script>
                                    
                                     $(document).ready(function(){
                                         var status = $("select[name = statusFinanciamiento_<%= i %>]");
                                         var fecha = $("input[name = fechaFinan_<%= i %>]");
+                                        var diasR = $("input[name = diasReales_<%= i %>]");
                                         if(status.val() == 'REFINANCIADA'){
                                             fecha.prop('disabled','disabled');
+                                            diasR.prop('disabled','disabled');
                                         }
                                     });
+                                   
                                 </script>
                         </td>
                         <td> <%= v.getUbicacion() %> </td>
@@ -350,8 +362,8 @@
                     </tr>  
         <%              }
                     }
-                }}else{
-                //System.out.println("accion es null");
+                }else{
+                    System.out.println("Valores nulos");
                 }
         %>
                 </tbody>

@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -42,10 +44,13 @@ public class ControlReportes extends HttpServlet {
         String nombre= null;
         String nombre_archivo = null;
         
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = formato.format(new Date());
+        
         ReportesDAO r = new ReportesDAO();
         
-        final String ruta = "C:\\Users\\Toshiba\\Documents\\NetBeansProjects\\PlanPiso\\web\\reportes";
-        final String ruta2 = "C:/planpiso/respaldo_reporte";
+        final String ruta = "C:\\glassfish4\\glassfish\\domains\\domain1\\applications\\PlanPiso\\archivos";
+        final String ruta2 = "C:/planpiso/respaldo_archivos";
         final Part archivo = request.getPart("reporte");
         nombre_archivo = getFileName(archivo);
         OutputStream salida = null;
@@ -89,7 +94,7 @@ public class ControlReportes extends HttpServlet {
         int posicion = nombre_archivo.indexOf(".");
         nombre = nombre_archivo.substring(0, posicion);
         
-        r.insertarReporte(nombre,nombre_archivo);
+        r.insertarReporte(nombre,nombre_archivo,fecha);
         request.setAttribute("mensaje", "Reporte ingresado con exito!!!");
         request.getRequestDispatcher("reporte.jsp").forward(request, response);
     

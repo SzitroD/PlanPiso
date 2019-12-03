@@ -57,6 +57,7 @@
                 <thead class="thead">
                     <tr>
                         <th>Nombre del Archivo</th>
+                        <th>Fecha de Subida</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -65,8 +66,9 @@
                         for(Reportes r : ReportesDAO.buscarReporte(busqueda)){ %>
                     <tr>        
                         <td> <%= r.getNombreReporte() %> </td>
+                        <td> <%= r.getFecha() %> </td>
                         <td> 
-                            <a class="btn-descargar" href="./reportes/<%= r.getRuta() %>"  download="<%= r.getRuta() %>">Descargar</a>
+                            <a class="btn-descargar" href="./archivos/<%= r.getRuta() %>"  download="<%= r.getRuta() %>">Descargar</a>
                         </td>
                     </tr>
                     <% } %>

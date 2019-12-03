@@ -1,13 +1,13 @@
 $(document).ready(function(){
    
-    var altura = $('.primer-titulo').offset().top+100;
+    //var altura = $('.primer-titulo').offset().top+100;
     var slide = $(".contenedor-menu");
     var header = $(".header");
     var contIcono = $(".contenedor-icono");
-    var ancho = $(window).width();
+    //var ancho = $(window).width();
 
     //console.log(ancho);
-
+/*
     $(window).on('scroll',function(){
        if( $(window).scrollTop() > altura ){
            $('.header').addClass('menu-fixed');
@@ -15,7 +15,7 @@ $(document).ready(function(){
            $('.header').removeClass('menu-fixed');
        } 
     });
-    
+    */
     $("#btn-exportar-vehiculos").click(function(){
         //console.log("entro al evento");
        
@@ -70,6 +70,9 @@ $(document).ready(function(){
           contIcono.css("height","100%");
         }
     });
+   
+    
+     $('#table-boostrap').DataTable();
     
 });
 

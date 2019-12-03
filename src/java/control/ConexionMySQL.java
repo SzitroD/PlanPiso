@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class ConexionMySQL {
     
     public static Connection conectarPP(){
-        String host="192.168.1.73:3306", usuario="dev";
-        String contrasena="stmsc0nt";
-        //String host = "localhost:3306", usuario ="root";
-        //String contrasena ="sistemas";
+        //String host="192.168.1.73:3306", usuario="dev";
+        //String contrasena="stmsc0nt";
+        String host = "localhost:3306", usuario ="root";
+        String contrasena ="sistemas";
         String sid="plan_piso";
        
         

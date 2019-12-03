@@ -14,19 +14,20 @@ public class FinanciarDAO {
     
     Connection con = ConexionMySQL.conectarPP();
     
-    public void insertarFinanciamiento(String vin,int idBanco, String fechaFinanciamiento,double interesReal){
+    public void insertarFinanciamiento(String vin,int idBanco, String fechaFinanciamiento,double interesReal, int diasReal){
         if(con == null ){
             con = ConexionMySQL.conectarPP();
         }
         if(con != null){
             try{
-                String SQL = "INSERT INTO financiar(vin_vehiculo,id_banco,fecha_financiamiento,interes_real) "
-                        +   "VALUES (?,?,?,?)";
+                String SQL = "INSERT INTO financiar(vin_vehiculo,id_banco,fecha_financiamiento,interes_real,dias_reales) "
+                        +   "VALUES (?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(SQL);
                 ps.setString(1, vin);
                 ps.setInt(2, idBanco);
                 ps.setString(3, fechaFinanciamiento);
                 ps.setDouble(4, interesReal);
+                ps.setInt(5, diasReal);
 
                 ps.executeUpdate();
             }catch(SQLException e){
