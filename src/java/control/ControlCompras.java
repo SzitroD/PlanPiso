@@ -15,7 +15,19 @@ public class ControlCompras extends HttpServlet {
    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("compras.jsp").forward(request, response);
+        String accion = request.getParameter("accion"); 
+        switch(accion){
+                case "Buscar": 
+                    String busqueda = request.getParameter("busqueda");
+                    request.getRequestDispatcher("compras-vin.jsp").forward(request, response);
+                    break;
+                case "Financiera":
+                    request.getRequestDispatcher("compras.jsp").forward(request, response);
+                    break;
+                default :
+                    request.getRequestDispatcher("compras.jsp").forward(request, response);
+                    break;
+        }
     }
     
     @Override
@@ -25,7 +37,7 @@ public class ControlCompras extends HttpServlet {
             String accion = request.getParameter("accion");
            
             switch(accion){
-               case "Guardar":
+                case "Guardar":
                    
                     int repeticiones = Integer.parseInt(request.getParameter("repeticiones"));
                     SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -42,6 +54,7 @@ public class ControlCompras extends HttpServlet {
                         String observaciones = null;
                         double interesReal = 0;
                         String fechaActual = formato.format(new Date());
+                        boolean bandera;
                         
                         try {
                             statusFinanciamiento = request.getParameter("statusFinanciamiento_" + i + "");
@@ -92,8 +105,8 @@ public class ControlCompras extends HttpServlet {
                         System.out.println("observaciones: "+observaciones);
                         System.out.println("interesReal: "+interesReal);
                         System.out.println("statusFinanciamiento: "+statusFinanciamiento);
-                        System.out.println("fecha actual: "+fechaActual);*/
-                        
+                        System.out.println("fecha actual: "+fechaActual);
+                        */
                         FinanciarDAO f = new FinanciarDAO();
                         
                         for(Financiar fi : FinanciarDAO.listarFinanciamiento()){
@@ -102,9 +115,15 @@ public class ControlCompras extends HttpServlet {
                             }
                         }
                         
-                        if(statusFinanciamiento.equals("REFINANCIADA")){
+                        if(diasReales == 0 || fechaString == null){
                             fechaString = fechaActual;
                             diasReales = diaR;
+                        }
+                        bandera = statusFinanciamiento.equals("REFINANCIADA");
+                        
+                        if(bandera == true){
+                            
+                            System.out.println("status = REFINANCIADA");
                                 if((idBanco != 0) && (vin != null) && (vin != null) && (fechaString != null) && 
                                 (diasReales >= 0) && (prioridad != null) && (observaciones != null) && 
                                 (interesReal >= 0) && (statusFinanciamiento != null)){
@@ -112,10 +131,12 @@ public class ControlCompras extends HttpServlet {
                                     f.refinanciemiento(idBanco, fechaString,vin,diasReales,prioridad,observaciones,interesReal,statusFinanciamiento);
 
                                 }else{
-                                    System.out.println("Error al actualizar");
+                                    System.out.println("Error al actualizar, status = REFINANCIADA");
                                 }
                         }else{
                            
+                            System.out.println("status != REFINANCIADA");
+                                
                                 if((idBanco != 0) && (vin != null) && (vin != null) && (fechaString != null) && 
                                 (diasReales >= 0) && (prioridad != null) && (observaciones != null) && 
                                 (interesReal >= 0) && (statusFinanciamiento != null)){
@@ -123,14 +144,14 @@ public class ControlCompras extends HttpServlet {
                                     f.actualizar(idBanco, fechaString,vin,diasReales,prioridad,observaciones,interesReal,statusFinanciamiento);
 
                                 }else{
-                                    System.out.println("Error al actualizar");
+                                    System.out.println("Error al actualizar, status != REFINANCIADA");
                                 }
                         }
                         
                        
                    }
                    
-                    //System.out.println("rep control: "+repeticiones);
+                    /*System.out.println("rep control: "+repeticiones);*/
                     request.getRequestDispatcher("compras.jsp").forward(request, response);
                    break;
                default :

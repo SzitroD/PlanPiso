@@ -26,27 +26,29 @@
 	<meta charset="UTF-8">
  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Plan Piso</title>
-
-	<link rel="stylesheet" href="./css/financiera.css">
-	<link rel="stylesheet" href="./css/header.css">
-	<link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
 
 </head>
 <body>
  
     <%@include file="header.jsp" %>
 
-    <div class="contenedor-titulo primer-titulo">
-        <h2 class="titulo">Estado de financieras</h2>
+    <div class="container-fluid bg-light" style="margin-top:75px; height: 80px;">
+        <div class="row align-items-center justify-content-center h-100">
+            <h2 class="text-center text-dark tipo-letra" >Estado de financieras</h2>
+        </div>
     </div>
 
-    <div class="contenedor-btn">
-        <a href="registrar-financiera.jsp" class="btn-registrar">Nueva Financiera</a>
+    <div class="container bg-light text-right" style="height: 50px;">
+        <a href="registrar-financiera.jsp" class="btn btn-success">Nueva Financiera</a>
     </div>
                 
-    <div class="contendor-tabla ultimo-contenido">
-        <table class="table">
-            <thead class="thead">
+    <div class="container bg-light" style="padding-bottom: 10px;margin-bottom: 80px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+        <table class="table-responsive table table-striped table-bordered tipo-letra text-center" style="width: 100%;">
+            <thead>
                 <tr>
                     <th>Financiera</th>
                     <th>Dias Libres de Financiamiento</th>
@@ -75,16 +77,16 @@
                             <input type="hidden" name="diasExt" value="<%= b.getDiasExtra() %>">
                             <input type="hidden" name="interesExt" value="<%= b.getInteresExtra() %>">
                             <input type="hidden" name="diasLibres" value="<%= b.getDiasLibres() %>">
-                            <input type="submit" class="btn-actualizar" name="accion" value="Modificar">
+                            <input type="submit" class="btn btn-warning" name="accion" value="Modificar">
                         </form>
                     </td>
                     <td>
                         <form action="ControlBanco" method="post" class="form-mod-interes">
                             <input type="hidden" name="id" value="<%= b.getIdBancos() %>">
                             <% if(b.getStatus() == 1){ %>
-                                <input class="btn-mod btn-desactivar" type="submit" name="accion" value="Desactivar"> 
+                                <input class="btn btn-danger" type="submit" name="accion" value="Desactivar"> 
                             <% }else{ %>
-                                <input class="btn-mod btn-activar" type="submit" name="accion" value="Activar">
+                                <input class="btn btn-success" type="submit" name="accion" value="Activar">
                             <% } %>
                         </form>
                     </td>
@@ -96,7 +98,10 @@
             
     <%@include file="footer.jsp" %>
 
-    <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
 </body>
 </html>

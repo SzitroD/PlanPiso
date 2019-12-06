@@ -35,21 +35,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Plan Piso</title>
 
-    <link rel="stylesheet" href="./css/vehiculos.css">
-    <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
 
 </head>
 <body>
 
     <%@include file="header.jsp" %>
-
-    <div class="contenedor-titulo primer-titulo">
-        <h2 class="titulo">Financiar vehiculos</h2>
+    
+    <div class="container-fluid bg-light" style="margin-top:75px; height: 80px;">
+        <div class="row align-items-center justify-content-center h-100">
+            <h2 class="text-center text-dark tipo-letra">Nuevos Financiamientos</h2>
+        </div>
     </div>
-
-    <div class="contenedor-titulo titulo-secundario">
-        <h3 class="titulo">Cargar archivo de conciliaciones</h3>
+    
+    <div class="container" style="height: 80px; background-color: #F2F2F2;">
+        <div class="row align-items-center justify-content-start h-100">
+            <h3 class="text-center text-dark tipo-letra" style="padding-left: 15px;">Cargar archivo de conciliacion</h3>
+        </div>
     </div>
 
     <%
@@ -71,36 +76,37 @@
     
     %>
     
-    <div class="contenedor-btn-csv">
-        <form class="form-csv" method="post" action="ControlVehiculos" enctype="multipart/form-data">
-            <label for="financiera" class="titulo-input">Elige a que financiera pertenece la conciliacion</label>
-            <select name="financiera">
+    <div class="container bg-light">
+        <form class="row justify-content-center" method="post" action="ControlVehiculos" enctype="multipart/form-data" style="padding-bottom: 20px;">
+            <label for="financiera" class="tipo-letra exampleFormControlFile1">Elige a que financiera pertenece la conciliacion</label>
+            <select id="financiera" name="financiera" class="form-control">
                 <% for(int j = 0; j < listaFinanciera.size(); j++){ %>
                 <option value="<%= listaFinanciera.get(j) %>"> <%= listaFinanciera.get(j) %> </option>
                 <% } %>
             </select>
-            <label for="archivo" class="titulo-input">Seleccione un archivo en formato CSV para la carga de conciliaciones</label>
-            <input type="file" name="archivo">
+            <label for="archivo" class="tipo-letra">Seleccione un archivo en formato CSV para la carga de conciliaciones</label>
+            <input type="file" class="form-control-file" id="archivo" name="archivo">
             <input type="hidden" name="tipo" value="conciliacion">
-            <input class="btn-actualizar" type="submit" name="accion" value="Subir Conciliacion">
+            <input class="btn btn-success" type="submit" name="accion" value="Subir Conciliacion">
         </form>
     </div>
-    
-    <div class="contenedor-titulo titulo-secundario">
-            <h3 class="titulo">Buscar vehiculo</h3>
+    <div class="container" style="height: 80px; background-color: #F2F2F2;">
+        <div class="row align-items-center justify-content-start h-100">
+            <h3 class="text-center text-dark tipo-letra" style="padding-left: 15px;">Financiar vehiculos</h3>
+        </div>
     </div>
-    
-    <div class="contenedor-busqueda">
-        <form action="ControlVehiculos" method="get" class="form-busqueda">
-            <input type="search" name="busqueda" class="search">
-            <input type="submit" name="accion" value="Buscar" class="btn-enviar">
+   
+    <div class="container bg-light d-flex justify-content-end align-items-center" style="height: 100px;">
+        <form action="ControlVehiculos" method="get" class="form-inline w-80">
+            <input type="search" name="busqueda" class="form-control mr-sm-2">
+            <input type="submit" name="accion" value="Buscar" class="btn btn-outline-black my-2 my-sm-0">
         </form>
     </div>
-
-        <div class="contendor-tabla ultimo-contenido">
-        
-            <table class="table">
-                <thead class="thead">
+            
+            
+    <div class="container bg-light" style="padding-bottom: 10px; margin-bottom: 80px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF;">
+        <table class="table table-boostrap-3 table-striped table-bordered tipo-letra text-center" style="width: 100%;">
+                <thead>
                     <tr>
                         <th>Fecha Compra</th>
                         <th>Serie</th>
@@ -111,10 +117,9 @@
                         <th>Opciones de financiamiento</th> 
                     </tr>
                 </thead>
-                <tbody class="tbody">
+                <tbody>
                     <% 
                         String busqueda = request.getParameter("busqueda");
-                        
                         for(Vehiculo v : VehiculosDAO.buscarVehiculo(busqueda)){
                             
                             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -131,8 +136,8 @@
                         <td> <%= v.getImporteNeto() %> </td>
                         <td> 
                             <form class="form-financiar" action="ControlVehiculos" method="post" enctype="multipart/form-data">
-                                <label for="nomFinanciera">Financiera </label>
-                                <select name="nomFinanciera">
+                                <label for="nomFinanciera" class="tipo-letra">Financiera </label>
+                                <select id="nomFinanciera" name="nomFinanciera" class="control-form">
                                     <option value="0"></option>
                                     <% for(Bancos b : BancosDAO.listarBancos()){ 
                                         if(b.getStatus()==1){%>
@@ -144,7 +149,7 @@
                                 <input type="hidden" name="fechaActual" value="<%= fechaString %>">
                                 <input type="hidden" name="fechaCompra" value="<%= v.getFechaCompra() %>">
                                 <input type="hidden" name="status" value="FINANCIADA" >
-                                <input class="btn-actualizar" type="submit" name="accion" value="Financiar">
+                                <input class="btn btn-warning" type="submit" name="accion" value="Financiar">
                             </form>
                         </td>
                     </tr>
@@ -159,7 +164,10 @@
 
     <%@include file="footer.jsp" %>
  
-    <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
     
 </body>

@@ -1,0 +1,21 @@
+@font-face{
+	font-family: "Gotham-Bold";
+	src: url('../fonts/gotham/GothamBold.ttf');
+	font-family: "Gotham";
+	src: url('../fonts/gotham/GothamMedium.ttf');	
+}
+
+html,body{
+	margin: 0px;
+	padding:0px;
+	font-size: 16px;
+        background-image: url('../img/background.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+	background-attachment: fixed;
+}
+
+.tipo-letra{
+    font-family: Gotham;
+}

@@ -27,78 +27,77 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8">
- 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-        <title>Plan Piso</title>
 
-	<link rel="stylesheet" href="./css/inicio.css">
-	<link rel="stylesheet" href="./css/header.css">
-	<link rel="stylesheet" href="./css/footer.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Plan Piso</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+ 
 </head>
 <body>
  
     <%@include file="header.jsp" %>
-
-    <div class="contenedor-titulo primer-titulo">
-        <h2 class="titulo">Busqueda de vehiculo</h2>
-    </div>
     
-    <div class="contenedor-busqueda">
-        <form action="ControlInicio" method="get" class="form-busqueda">
-            <input type="search" name="busqueda" placeholder="Vin del Vehiculo" class="search">
-            <input type="submit" name="accion" value="Buscar" class="btn-enviar">
-        </form>
+    <div class="container-fluid bg-light" style="margin-top:75px; height: 80px;">
+        <div class="row align-items-center justify-content-center h-100">
+            <h2 class="text-center text-dark tipo-letra" >Busqueda de vehiculo</h2>
+        </div>
     </div>
-    
-    <div class="contendor-tabla">
-        <table class="table">
-            <thead class="thead">
-                <tr>
-                    <th>Vin</th>
-                    <th>Status</th>
-                    <th>Prioridad</th>
-                    <th>Ubicacion</th>
-                    <th>Nombre de proveedor</th>
-                    <th>Fecha de Financiamiento</th>                        
-                    <th>Financiera</th>
-                    <th>Dias de credito</th>
-                    <th>Dias transcurridos</th>
-                    <th>Importe a pagar</th>
-                </tr>
-            </thead>
-            <tbody>
+   
+    <div class="container bg-light" style="padding-top: 20px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+        <table class="table table-striped table-bordered tipo-letra text-center" style="width: 100%;" id="table-boostrap">
+              <thead>
+                  <tr>
+                      <th>Vin</th>
+                      <th>Status</th>
+                      <th>Prioridad</th>
+                      <th>Ubicacion</th>
+                      <th>Nombre de proveedor</th>
+                      <th>Fecha de Financiamiento</th>                        
+                      <th>Financiera</th>
+                      <th>Dias de credito</th>
+                      <th>Dias transcurridos</th>
+                      <th>Importe a pagar</th>
+                  </tr>
+              </thead>
+              <tbody>
                 <% 
-                    String busqueda = request.getParameter("busqueda");
+
                     DecimalFormat formateador = new DecimalFormat("###,###,###.00");
-                    for(VistaCompras v: VistasDAO.buscarVehiculo(busqueda)){
+                    for(VistaCompras v: VistasDAO.listarVehiculosFiltro()){
                         if(v.getStatusBanco()==1){
                 %>
-                    <tr>
-                        <td><%= v.getVin()%></td>
-                        <td><%= v.getStatusFinanciamiento() %></td>
-                        <td><%= v.getPrioridadPago() %></td>
-                        <td><%= v.getUbicacion() %></td>
-                        <td><%= v.getCarteraFinanciera()%></td>
-                        <td><%= v.getFechaFinanciamiento() %></td>
-                        <td><%= v.getNombreBanco() %></td>
-                        <td><%= v.getDiasRealesFinanciamiento()%></td>
-                        <td><%= v.getDias() %></td>
-                        <td> $<%= formateador.format(v.getTotalPago()) %></td>
-                    </tr>
+                <tr>
+                    <td><%= v.getVin()%></td>
+                    <td><%= v.getStatusFinanciamiento() %></td>
+                    <td><%= v.getPrioridadPago() %></td>
+                    <td><%= v.getUbicacion() %></td>
+                    <td><%= v.getCarteraFinanciera()%></td>
+                    <td><%= v.getFechaFinanciamiento() %></td>
+                    <td><%= v.getNombreBanco() %></td>
+                    <td><%= v.getDiasRealesFinanciamiento()%></td>
+                    <td><%= v.getDias() %></td>
+                    <td> $<%= formateador.format(v.getTotalPago()) %></td>
+                </tr>
                 <% }
                     } %>
             </tbody>
-        </table>	
+        </table>
     </div>
         
-    <div class="contenedor-titulo">
-        <h2 class="titulo">Vehiculos Refinanciados</h2>
+    <div class="container-fluid bg-light" style="height: 80px;">
+        <div class="row align-items-center justify-content-center h-100">
+            <h2 class="text-center text-dark tipo-letra">Vehiculos Refinanciados</h2>
+        </div>
     </div>
             
-    <div class="contendor-tabla">
-        <table class="table">
-            <thead class="thead">
+    <div class="container bg-light" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+        <table class="table  table-striped table-bordered tipo-letra text-center table-boostrap-2" >
+            <thead>
                 <tr>
                     <th>Vin</th>
                     <th>Marca</th>
@@ -142,17 +141,21 @@
         </table>
     </div>
             
-    <div class="contenedor-titulo">
-        <h2 class="titulo">Estado de vehiculos</h2>
+    <div class="container-fluid bg-light" style="height: 80px;">
+        <div class="row align-items-center justify-content-center h-100">
+            <h2 class="text-center text-dark tipo-letra">Estado de vehiculos</h2>
+        </div>
     </div>
 
-    <div class="contenedor-titulo titulo-secundario">
-            <h3 class="titulo">Vencidos</h3>
+    <div class="container">
+        <div class="row align-items-center justify-content-center h-100" style="background-color: #F2F2F2;">
+            <h3 class="text-left text-secondary tipo-letra">Vencidos</h3>
+        </div>
     </div>
 	
-    <div class="contendor-tabla">
-        <table class="table">
-            <thead class="thead">
+    <div class="container bg-light" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+        <table class="table table-striped table-boostrap-2 table-bordered tipo-letra text-center">
+            <thead>
                 <tr>
                     <th>Vin</th>
                     <th>Marca</th>
@@ -186,13 +189,15 @@
             </table>
         </div>
                 
-        <div class="contenedor-titulo titulo-secundario">
-            <h3 class="titulo">Proximos a Vencer</h3>
-	</div>
+        <div class="container">
+            <div class="row align-items-center justify-content-center h-100" style="background-color: #F2F2F2;">
+                <h3 class="text-left text-secondary tipo-letra">Proximos a Vencer</h3>
+            </div>
+        </div>
 
-	<div class="contendor-tabla  ultimo-contenido">
-            <table class="table">
-                <thead class="thead">
+	<div class="container bg-light" style="margin-bottom: 80px; padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+            <table class="table table-boostrap-2 table-striped table-bordered tipo-letra text-center">
+                <thead>
                     <tr>
                         <th>Vin</th>
                         <th>Marca</th>
@@ -229,11 +234,14 @@
             </table>
         </div>
       
-    <%@include file="footer.jsp" %>
- 
-    <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
+        <%@include file="footer.jsp" %>
+                
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
-    
+
 </body>
 </html>
 

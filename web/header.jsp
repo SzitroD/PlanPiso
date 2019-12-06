@@ -1,23 +1,23 @@
-<header class="header">
-    <div class="contenedor-icono">
-        <i class="icon-menu"></i>
-    </div>
-    <nav class="contenedor-menu menu-telefono">
-        <figure class="contenedor-logo">
-            <a href="index.jsp" class="link-logo">
-                <img src="./img/Logotipo_Blanco_Menu.png" alt="logo" class="logo">
-            </a>
-        </figure>
-        <ul class="menu">
-            <li class="item-menu"><a href="index.jsp" class="link-menu">INICIO</a></li>
-            <li class="item-menu"><a href="compras.jsp" class="link-menu">COMPRAS</a></li>
-            <li class="item-menu"><a href="pagados.jsp" class="link-menu">VEHICULOS PAGADOS</a></li>
-            <li class="item-menu"><a href="cuentas.jsp" class="link-menu">RESUMEN</a></li>
-            <li class="item-menu"><a href="conciliacion.jsp" class="link-menu">CONCILIACION</a></li>
-            <li class="item-menu"><a href="vehiculos.jsp" class="link-menu">FINANCIAR VEHICULOS</a></li>
-            <li class="item-menu"><a href="reporte.jsp" class="link-menu">ARCHIVOS</a></li>
-            <li class="item-menu"><a href="financiera.jsp" class="link-menu">FINANCIERA</a></li>
-            <li class="item-menu item-cerrar"><a href="Logout" class="link-menu">CERRAR SESION</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #16254C;">
+    <a href="index.jsp" class="navbar-brand">
+        <img src="./img/Logotipo_Blanco_Menu.png" alt="logo" height="45" class="img-rounded">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" 
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+          aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto text-center">
+            <li class="nav-item "><a href="index.jsp" class="nav-link tipo-letra ">INICIO</a></li>
+            <li class="nav-item "><a href="compras.jsp" class="nav-link tipo-letra">COMPRAS</a></li>
+            <li class="nav-item "><a href="pagados.jsp" class="nav-link tipo-letra">PAGADOS</a></li>
+            <li class="nav-item "><a href="cuentas.jsp" class="nav-link tipo-letra">RESUMEN</a></li>
+            <li class="nav-item "><a href="conciliacion.jsp" class="nav-link tipo-letra">CONCILIACION</a></li>
+            <li class="nav-item "><a href="vehiculos.jsp" class="nav-link tipo-letra">FINANCIAR</a></li>
+            <li class="nav-item "><a href="reporte.jsp" class="nav-link tipo-letra">ARCHIVOS</a></li>
+            <li class="nav-item "><a href="financiera.jsp" class="nav-link tipo-letra">FINANCIERA</a></li>
+            <li class="nav-item "><a href="Logout" class="nav-link tipo-letra">CERRAR SESION</a></li>
         </ul>
-    </nav>
-</header>
+    </div>
+</nav>

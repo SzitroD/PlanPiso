@@ -16,6 +16,12 @@ html,body{
 	background-attachment: fixed;
 }
 
+.tipo-letra{
+    margin: 0px;
+    padding: 0px;
+    font-family: Gotham;
+}
+/*
 .contenedor-titulo{
 	width: 100%;
 	height: 40px;
@@ -103,8 +109,7 @@ th,td{
         margin-bottom: 55px;
 }
 
-/**********************************************************/
-
+//////////////////////////////////////////////
 @media screen and (min-width: 576px){
 	.table{
 		font-size: .9em;
@@ -169,3 +174,4 @@ th,td{
 		font-size: 1.1em;
 	}
 }
+*/

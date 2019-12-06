@@ -1,21 +1,5 @@
 $(document).ready(function(){
    
-    //var altura = $('.primer-titulo').offset().top+100;
-    var slide = $(".contenedor-menu");
-    var header = $(".header");
-    var contIcono = $(".contenedor-icono");
-    //var ancho = $(window).width();
-
-    //console.log(ancho);
-/*
-    $(window).on('scroll',function(){
-       if( $(window).scrollTop() > altura ){
-           $('.header').addClass('menu-fixed');
-       }else{
-           $('.header').removeClass('menu-fixed');
-       } 
-    });
-    */
     $("#btn-exportar-vehiculos").click(function(){
         //console.log("entro al evento");
        
@@ -45,7 +29,7 @@ $(document).ready(function(){
     });
     
      $("#btn-exportar-conciliacion").click(function(){
-        //console.log("entro al evento");
+        console.log("entro al evento");
        
         var fecha = new Date();
         var fechaActual = (fecha.getFullYear())+"-"+(fecha.getMonth()+1)+"-"+(fecha.getDate());
@@ -57,23 +41,94 @@ $(document).ready(function(){
            preserveColors: true
         });
     });
-
-
-    $(".icon-menu").click(function(){
-        if(slide.hasClass("menu-telefono")){
-          slide.removeClass("menu-telefono");
-          header.addClass("slide-menu");
-          contIcono.css("height","15%");
-        }else{
-          slide.addClass("menu-telefono");
-          header.removeClass("slide-menu");
-          contIcono.css("height","100%");
-        }
+    
+    var datosTabla = $('#table-boostrap').DataTable( {
+        "scrollY": 300,
+        "scrollX": true,
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu":"Mostrar _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "Todos"] ],
+        pageLength: 10
     });
-   
     
-     $('#table-boostrap').DataTable();
+     var datosTabla2 = $('.table-boostrap-2').DataTable( {
+        "scrollY": 300,
+        "scrollX": true,
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu":"Mostrar _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": " ",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "bFilter": false,
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "Todos"] ],
+        "pageLength": 10
+    });
     
+    var datosTabla3 = $('.table-boostrap-3').DataTable( {
+        "scrollY": 300,
+        "scrollX": true,
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _TOTAL_ Entradas",
+            "infoEmpty": "",
+            "infoFiltered": "",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu":"",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": " ",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "",
+                "last": "",
+                "next": "",
+                "previous": ""
+            }
+        },
+        "bFilter": false,
+        "paging":false,
+        "lengthMenu": false,
+        "pageLength": -1
+    });
+    /*
+    var info = datosTabla.page.info();
+    var count = info.end;
+    console.log(count);*/
 });
 
 

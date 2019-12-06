@@ -29,29 +29,32 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
 	<title>Plan Piso</title>
-	<link rel="stylesheet" href="./css/formulario.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+        <link rel="stylesheet" href="./css/style.css">
     </head>
     <body>
-        <div class="contenedor-titulo">
-            <h2 class="titulo">Formulario de Intereses</h2>
+        <div class="container" style="height: 80px; background-color: #F2F2F2;">
+            <div class="row align-items-center justify-content-center h-100">
+                <h2 class="text-center text-dark tipo-letra" >Formulario de Intereses</h2>
+            </div>
         </div>
-        <form class="form-financiera" method="post" action="ControlBanco">
+        <form class="container bg-light d-flex justify-content-between align-items-center tipo-letra" method="post" action="ControlBanco" style="border:2px solid #DFDFDF; flex-direction:column;">
             <input type="hidden" name="id" value="<%= id %>">
             <label for="nombreBanco">Nombre de banco: </label>
-            <input type="text" name="nombreBanco" placeholder="Banamex" value="<%= nombreBanco %>" required>
+            <input class="form-control" type="text" id="nombreBanco" name="nombreBanco" placeholder="Banamex" value="<%= nombreBanco %>" required>
             <label for="diasFinanciamiento">Cantidad de dias de financiamiento: </label>
-            <input type="text" name="diasFinanciamiento" value="<%= diasFinan %>" placeholder="180" required>
+            <input class="form-control" type="text" id="diasFinanciamiento" name="diasFinanciamiento" value="<%= diasFinan %>" placeholder="180" required>
             <label for="interes">Interes del banco: </label>
-            <input type="text" name="interes"  value="<%= interes %>" placeholder="1.26%" required>
+            <input class="form-control" type="text" id="interes" name="interes"  value="<%= interes %>" placeholder="1.26%" required>
             <label for="diasExtra">Cantidad de dias extra: </label>
-            <input type="text" name="diasExtra" value="<%= diasExt %>" placeholder="30" required>
+            <input class="form-control" type="text" id="diasExtra" name="diasExtra" value="<%= diasExt %>" placeholder="30" required>
             <label for="interesExtra">Interes por dia extra: </label>
-            <input type="text" name="interesExtra" value="<%= interesExt %>" placeholder="25%" required>
+            <input class="form-control" type="text" id="interesExtra" name="interesExtra" value="<%= interesExt %>" placeholder="25%" required>
             <label for="diasLibres">Cantidad de dias libre de interes: </label>
-            <input type="text" name="diasLibres" value="<%= diasLibres %>">
-            <div class="contenedor-botones">
-                <input type="submit" class="boton-form boton-reg" name="accion" value="Cancelar">
-                <input type="submit" class="boton-form boton-can" name="accion" value="Actualizar">
+            <input class="form-control" type="text" id="diasLibres" name="diasLibres" value="<%= diasLibres %>">
+            <div class="row w-100 align-items-center justify-content-center">
+                <input type="submit" class="btn btn-danger" name="accion" value="Cancelar" style="margin: 10px;">
+                <input type="submit" class="btn btn-primary" name="accion" value="Actualizar" style="margin: 10px;">
             </div>
         </form>
     </body>

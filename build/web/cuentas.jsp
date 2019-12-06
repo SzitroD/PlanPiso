@@ -33,33 +33,37 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
 	
         <title>Plan Piso</title>
-        
-	<link rel="stylesheet" href="./css/cuentas.css">
-	<link rel="stylesheet" href="./css/header.css">
-	<link rel="stylesheet" href="./css/footer.css">
+        <link rel="stylesheet" href="./css/style.css">    
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+        <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
 
 </head>
 <body>
 
     <%@include file="header.jsp" %>
-
-    <div class="contenedor-titulo primer-titulo">
-        <h2 class="titulo">Resumen de compras</h2>
+    
+    <div class="container-fluid bg-light" style="margin-top:75px; height: 80px;">
+        <div class="row align-items-center justify-content-center h-100">
+            <h2 class="text-center text-dark tipo-letra" >Resumen de compras</h2>
+        </div>
     </div>
-        
-    <div class="contenedor-btn-reporte">
-        <button id="btn-exportar-resumen" class="btn">
+    
+    <div class="container col-12 bg-light text-center">
+        <button id="btn-exportar-resumen" class="btn btn-success">
             EXCEL RESUMEN
         </button>  
-        <button id="btn-exportar-vehiculos" class="btn">
+        <button id="btn-exportar-vehiculos" class="btn btn-success">
             EXCEL VEHICULOS
         </button> 
     </div>
     
-    <div class="contenedor-titulo">
-        <h2 class="titulo">Resumen de cada financiera</h2>
+    <div class="container" style="height: 80px; background-color: #F2F2F2;">
+        <div class="row align-items-center justify-content-start h-100">
+            <h3 class="text-center text-dark tipo-letra" style="padding-left: 15px;">Resumen de cada financiera</h3>
+        </div>
     </div>
-    <div id="contenedor-excel-resumen" class="contenedor-general ultimo-contenido">
+    <div id="contenedor-excel-resumen" class="container bg-light" style="margin-bottom:80px" >
         
         <%
             int total_unidad = 0;
@@ -73,15 +77,17 @@
                    if(b.getStatus()==1){
             %>
             
-        <div class="contenedor-titulo titulo-secundario">
-            <h4 class="titulo">
-                <%= b.getNombreBanco() %>
-            </h4>
+        <div class="container">
+            <div class="row align-items-center justify-content-start h-100">
+                <h4  class="text-dark tipo-letra">
+                    <%= b.getNombreBanco() %>
+                </h4>
+            </div>
         </div>
             
-        <div class="contendor-tabla">
-            <table class="table">
-                <thead class="thead">
+        <div class="container" style=" padding-bottom: 10px;border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+             <table class="table table-responsive table-striped table-bordered tipo-letra text-center" style="width: 100%;">
+                <thead>
                     <tr>
                         <th colspan="6"><%= b.getNombreBanco() %></th> 
                     </tr>
@@ -94,7 +100,7 @@
                         <th>Total CF</th>
                     </tr>
                 </thead>
-                <tbody class="tbody">
+                <tbody>
             <% 
                 for(VistaCompras v : VistasDAO.listas_conciliacion()){
                         
@@ -143,7 +149,7 @@
             %>
         		
     </div>
-     <div id="contenedor-excel-vehiculos" class="contenedor-general" style="display: none">
+     <div id="contenedor-excel-vehiculos" class="container bg-light" style="display: none">
         
         <%
             int total_u = 0;
@@ -156,15 +162,17 @@
                 if(b.getStatus()==1){
         %>
             
-        <div class="contenedor-titulo titulo-secundario">
-            <h4 class="titulo">
-                <%= b.getNombreBanco() %>
-            </h4>
+        <div class="container">
+            <div class="row align-items-center justify-content-start h-100">
+                <h4  class="text-dark tipo-letra">
+                    <%= b.getNombreBanco() %>
+                </h4>
+            </div>
         </div>
             
-        <div class="contendor-tabla">
-            <table class="table">
-                <thead class="thead">
+        <div class="container" style=" border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+             <table class="table-responsive table table-striped table-bordered tipo-letra text-center" style="width: 100%; ">
+                <thead>
                     <tr>
                         <th colspan="7"><%= b.getNombreBanco() %></th> 
                     </tr>
@@ -178,7 +186,7 @@
                         <th>CF</th>
                     </tr>
                 </thead>
-                <tbody class="tbody">
+                <tbody>
             <% 
                 for(VistaCompras v : VistasDAO.listarVehiculosExcel()){
                         
@@ -230,9 +238,12 @@
     
     <%@include file="footer.jsp" %>
  
-    <script type="text/javascript" src="./js/jquery/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="./js/jquery/jquery.table2excel.min.js"></script>
-    <script type="text/javascript" src= "./js/main.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    
  
 </body>
 </html>

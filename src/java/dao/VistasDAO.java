@@ -33,7 +33,7 @@ public class VistasDAO {
                     "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then (((0/100)  * vista_general.valor_factura)/360)* dias\n" +
                     "   when statusFinanciamiento = 'REFINANCIADA' then (((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias\n" +
                     "end as interes_vehiculo\n" +
-                    "FROM plan_piso.vista_general WHERE nombreBanco = '"+financiera+"'";
+                    "FROM plan_piso.vista_general WHERE nombreBanco = '"+financiera+"' AND statusBanco = 1";
                 
                 PreparedStatement ps = conPP.prepareStatement(SQL);
                 ResultSet rs = ps.executeQuery();
@@ -121,7 +121,7 @@ public class VistasDAO {
                     "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then (((0/100)  * vista_general.valor_factura)/360)* dias\n" +
                     "   when statusFinanciamiento = 'REFINANCIADA' then (((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias\n" +
                     "end as interes_vehiculo\n" +
-                    "FROM plan_piso.vista_general WHERE vin LIKE '%"+vin+"%'";
+                    "FROM plan_piso.vista_general WHERE vin LIKE '%"+vin+"%' AND statusBanco = 1";
                 
                 PreparedStatement ps = conPP.prepareStatement(SQL);
                 ResultSet rs = ps.executeQuery();
@@ -203,7 +203,7 @@ public class VistasDAO {
                 "   when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then ((((0/100)  * vista_general.valor_factura)/360)* dias) + vista_general.valor_factura\n" +
                 "   when statusFinanciamiento = 'REFINANCIADA' then ((((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias) + vista_general.valor_factura\n" +
                 "end as total_pago\n" +
-                "FROM plan_piso.vista_general WHERE vin LIKE'%"+vin+"%'";
+                "FROM plan_piso.vista_general WHERE vin LIKE'%"+vin+"%' AND statusBanco = 1";
             PreparedStatement ps = conPP.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             
@@ -272,6 +272,7 @@ public class VistasDAO {
                 "       when statusFinanciamiento = 'REFINANCIADA' then ((((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias) + vista_general.valor_factura\n" +
                 "end) as total_pago\n" +
                 "FROM plan_piso.vista_general\n" +
+                "WHERE statusBanco = 1 \n" +    
                 "GROUP BY id_banco, prioridad_pago;" ;
             
             PreparedStatement ps = conPP.prepareStatement(SQL);
@@ -332,7 +333,7 @@ public class VistasDAO {
                     "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then (((0/100)  * vista_general.valor_factura)/360)* dias\n" +
                     "   when statusFinanciamiento = 'REFINANCIADA' then (((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias\n" +
                     "end as interes_vehiculo\n" +
-                    "FROM plan_piso.vista_general WHERE nombreBanco = '"+financiera+"' and statusFinanciamiento = 'PAGADA'";
+                    "FROM plan_piso.vista_general WHERE nombreBanco = '"+financiera+"' AND (statusFinanciamiento = 'PAGADA' AND statusBanco = 1)";
                 PreparedStatement ps = conPP.prepareStatement(SQL);
                 ResultSet rs = ps.executeQuery();
 
@@ -420,7 +421,7 @@ public class VistasDAO {
                     "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then (((0/100)  * vista_general.valor_factura)/360)* dias\n" +
                     "   when statusFinanciamiento = 'REFINANCIADA' then (((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias\n" +
                     "end as interes_vehiculo\n" +
-                    "FROM plan_piso.vista_general WHERE vin LIKE '%"+vin+"%' and statusFinanciamiento = 'PAGADA'";
+                    "FROM plan_piso.vista_general WHERE vin LIKE '%"+vin+"%' AND (statusFinanciamiento = 'PAGADA' AND statusBanco = 1)";
                 PreparedStatement ps = conPP.prepareStatement(SQL);
                 ResultSet rs = ps.executeQuery();
 
@@ -506,7 +507,8 @@ public class VistasDAO {
                 "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then ((((0/100)  * vista_general.valor_factura)/360)* dias) + vista_general.valor_factura\n" +
                 "       when statusFinanciamiento = 'REFINANCIADA' then ((((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias) + vista_general.valor_factura\n" +
                 "end as total_pago\n" +
-                "FROM plan_piso.vista_general" ;
+                "FROM plan_piso.vista_general "
+                + "WHERE statusBanco = 1" ;
             PreparedStatement ps = conPP.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             
@@ -560,7 +562,8 @@ public class VistasDAO {
                 "   when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then ((((0/100)  * vista_general.valor_factura)/360)* dias) + vista_general.valor_factura\n" +
                 "   when statusFinanciamiento = 'REFINANCIADA' then ((((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias) + vista_general.valor_factura\n" +
                 "end as total_pago\n" +
-                "FROM plan_piso.vista_general";
+                "FROM plan_piso.vista_general "
+                    + "WHERE statusBanco = 1";
             PreparedStatement ps = conPP.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             
@@ -623,7 +626,97 @@ public class VistasDAO {
                     "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then (((0/100)  * vista_general.valor_factura)/360)* dias\n" +
                     "   when statusFinanciamiento = 'REFINANCIADA' then (((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias\n" +
                     "end as interes_vehiculo\n" +
-                    "FROM plan_piso.vista_general";
+                    "FROM plan_piso.vista_general "
+                        + "WHERE statusBanco = 1";
+                
+                PreparedStatement ps = conPP.prepareStatement(SQL);
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    VistaCompras v = new VistaCompras();
+
+                    v.setFechaCompra(rs.getString("fecha_compra"));
+                    v.setMarca(rs.getString("marca"));
+                    v.setVin(rs.getString("vin"));
+                    v.setSerie(rs.getString("serie"));
+                    v.setValorFactura(rs.getDouble("valor_factura"));
+                    v.setImporteNeto(rs.getDouble("valor_factura"));
+                    v.setSituacion(rs.getString("situacion"));
+                    v.setUbicacion(rs.getString("ubicacion"));
+                    v.setCarteraFinanciera(rs.getString("cartera_financiera"));
+                    v.setFactura(rs.getString("factura"));
+                    v.setCliente(rs.getString("cliente"));
+                    v.setIdTipoVenta(rs.getString("id_tipo_venta"));
+                    v.setTipoVenta(rs.getString("tipo_venta"));
+                    v.setFechaFactura(rs.getString("fecha_factura"));
+                    v.setValorVenta(rs.getDouble("valor_venta"));
+                    v.setPagoCliente(rs.getDouble("pago_cliente"));
+                    v.setSaldo(rs.getDouble("saldo"));
+                    v.setDb(rs.getString("db"));
+                    v.setFechaCarga(rs.getString("fecha_carga"));
+                    v.setPrioridadPago(rs.getString("prioridad_pago"));
+                    v.setReportadoNVDR(rs.getString("reportado_nvdr"));
+                    v.setObservaciones(rs.getString("observaciones"));
+                    v.setFechaFinanciamiento(rs.getString("fecha_financiamiento"));
+                    v.setDiasRealesFinanciamiento(rs.getInt("dias_reales"));
+                    v.setCf(rs.getDouble("cf"));
+                    v.setInteresReal(rs.getDouble("interes_real"));
+                    v.setInteresExtraReal(rs.getDouble("interes_extra_real"));
+                    v.setStatusFinanciamiento(rs.getString("statusFinanciamiento"));
+
+                    v.setIdBanco(rs.getInt("id_banco"));
+                    v.setNombreBanco(rs.getString("nombreBanco"));
+                    v.setInteres(rs.getDouble("interes"));
+                    v.setDiasFinanciamiento(rs.getInt("diasFinanciamiento"));
+                    v.setDiasExtra(rs.getInt("diasExtra"));
+                    v.setInteresExtra(rs.getDouble("interesExtra"));
+                    v.setDiasLibres(rs.getInt("diasLibres"));
+                    v.setStatusBanco(rs.getInt("statusBanco"));
+                    
+                    v.setDias(rs.getInt("dias"));
+                    v.setTasa(rs.getDouble("tasa"));
+                    v.setInteresVehiculo(rs.getDouble("interes_vehiculo"));
+
+                    lista.add(v);
+                }
+            }catch(SQLException e){
+                System.out.println("Error al buscar en la vista: "+e.getLocalizedMessage());
+                return null;
+            }finally {
+                        try {
+                            conPP.close();
+                        } catch (SQLException ee) {
+                            System.out.println("SQL ERROR-2 " + ee.getSQLState() + ee.getMessage());
+                        }
+                    }
+        }
+                return lista;
+    }
+    
+    public static ArrayList<VistaCompras> listarVehiculosPagados(){
+        
+        Connection conPP = ConexionMySQL.conectarPP();
+        ArrayList<VistaCompras> lista = new ArrayList<>();
+        
+        if(conPP == null){
+            conPP = ConexionMySQL.conectarPP();
+        }
+        if(conPP != null){
+
+            try{
+                String SQL = 
+                    "SELECT * ,\n" +
+                    "case\n" +
+                    "	when dias <= vista_general.dias_reales and statusFinanciamiento != 'REFINANCIADA' then vista_general.interes_real/100\n" +
+                    "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then 0/100\n" +
+                    "	when statusFinanciamiento = 'REFINANCIADA' then vista_general.interes_extra_real/100\n" +
+                    " end as tasa,\n" +
+                    "case \n" +
+                    "	when dias <= vista_general.dias_reales and statusFinanciamiento != 'REFINANCIADA' then (((vista_general.interes_real/100) * (vista_general.valor_factura))/360) * dias\n" +
+                    "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then (((0/100)  * vista_general.valor_factura)/360)* dias\n" +
+                    "   when statusFinanciamiento = 'REFINANCIADA' then (((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias\n" +
+                    "end as interes_vehiculo\n" +
+                    "FROM plan_piso.vista_general WHERE statusFinanciamiento = 'PAGADA' AND statusBanco = 1";
                 
                 PreparedStatement ps = conPP.prepareStatement(SQL);
                 ResultSet rs = ps.executeQuery();

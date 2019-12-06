@@ -48,6 +48,7 @@ public class Login extends HttpServlet {
                 sesion.setAttribute("mensaje", mensaje);
                 mensaje += "Password Incorrecto, favor de rectificar";
                 System.out.println("Usuario no valido");
+                System.out.println(mensaje);
             }
             
             dispatcher = getServletContext().getRequestDispatcher(retorno);
