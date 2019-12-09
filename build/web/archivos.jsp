@@ -43,11 +43,15 @@
     
     <div class="container bg-light" style="margin-bottom:80px" >
         
+        <!-- FORMULARIO PARA SUBIR UN ARCHIVO -->
+        
         <form class="row justify-content-center" action="ControlReportes" method="post" enctype="multipart/form-data" style="height: 100px;">
             <label class="tipo-letra" for="archivo">Seleccionar Archivo</label>
             <input type="file" name="reporte"  class="form-control-file" id="archivo" lang="es">
             <input class="btn btn-success" type="submit" value="Subir">
         </form> 
+        
+        <!-- TABLA DE DESCARGA DE ARCHIVOS -->
         
        <div class=" container" style="padding-bottom: 10px;  border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
             <table class="table table-striped table-bordered tipo-letra text-center" style="width: 100%;" id="table-boostrap">

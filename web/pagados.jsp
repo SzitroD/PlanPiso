@@ -53,8 +53,10 @@
         </div>
     </div>
     
+    <!-- FORMULARIO PARA FILTRADO DE VEHICULOS POR NOMBRE DE FINANCIERA -->
+    
     <div class="container bg-light" style="padding: 15px 0px;">
-        <form class="row w-100 p-0 m-0 justify-content-around align-items-center" action="ControlPagados" method="get">
+        <form class="row w-100 p-0 m-0 justify-content-around align-items-center" action="ControlPagados" method="post">
         <%  for(Bancos b: BancosDAO.listarBancos()){ 
                 if(b.getStatus() == 1){
         %>
@@ -65,8 +67,9 @@
         </form>
     </div>
     
+          <!-- TABLA DE VEHICULOS FILTRADO POR NOMBRE DE FINANCIERA --> 
     <div class="container bg-light" style="padding-top:20px;">
-        <table class="table table-boostrap-2 table-striped table-bordered tipo-letra text-center" style="width: 100%;">
+        <table class="table table-boostrap-3 table-striped table-bordered tipo-letra text-center" style="width: 100%;">
             <thead>
                 <tr>
                     <th>Fecha de Compra</th>
@@ -107,14 +110,16 @@
             </thead>
             <tbody>
             <%  
+                //Parametro recibido para filtro en la tabla 
                 String financiera = request.getParameter("nomFinanciera");
                 
+                    //Formato en que se presentan las cantidades 
                 DecimalFormat formateador = new DecimalFormat("###,###,###.00");
 
                 double impPago = 0;
                 double diferencia = 0;
                 
-                for(VistaCompras v: VistasDAO.buscarCompraFinanciera(financiera)){
+                for(VistaCompras v: VistasDAO.buscarPagadas(financiera)){
                     
 
                     impPago = v.getInteresVehiculo() + v.getImporteNeto();
@@ -172,6 +177,8 @@
         </div>
     </div>
          
+    <!-- TABLA DE VEHICULOS FILTRADO POR NOMBRE FINANCIERA -->      
+                
     <div class="container bg-light" style="padding-top: 20px; padding-bottom: 10px; margin-bottom: 80px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table table-striped table-bordered tipo-letra text-center" style="width: 100%;" id="table-boostrap">
             <thead>

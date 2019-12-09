@@ -62,6 +62,10 @@
         String[] lista = null;
         int i = 0;
 
+         /*Filtro para identificar el total de financieras existentes y verlas sin que se repitan
+                Ejemplo en vez de inprimir FCA ALFA, FCA FIAT y FCA SEMI, solo se imprime FCA juntando las
+                tres financieras en una sola*/
+        
         for(Bancos b: BancosDAO.listarBancos()){
             if(b.getStatus()==1){
                  lista = b.getNombreBanco().split(" ");
@@ -75,6 +79,8 @@
         }
     
     %>
+    
+    <!-- FORMULARIO PARA SUBIR UN ARCHIVO DE CONCILIACION -->
     
     <div class="container bg-light">
         <form class="row justify-content-center" method="post" action="ControlVehiculos" enctype="multipart/form-data" style="padding-bottom: 20px;">
@@ -90,20 +96,25 @@
             <input class="btn btn-success" type="submit" name="accion" value="Subir Conciliacion">
         </form>
     </div>
+            
+            
     <div class="container" style="height: 80px; background-color: #F2F2F2;">
         <div class="row align-items-center justify-content-start h-100">
             <h3 class="text-center text-dark tipo-letra" style="padding-left: 15px;">Financiar vehiculos</h3>
         </div>
     </div>
    
+    <!-- FORMULARIO PARA FILTRAR VEHICULOS POR VIN --> 
+            
     <div class="container bg-light d-flex justify-content-end align-items-center" style="height: 100px;">
-        <form action="ControlVehiculos" method="get" class="form-inline w-80">
+        <form action="ControlVehiculos" method="post" class="form-inline w-80">
             <input type="search" name="busqueda" class="form-control mr-sm-2">
             <input type="submit" name="accion" value="Buscar" class="btn btn-outline-black my-2 my-sm-0">
         </form>
     </div>
             
-            
+    <!-- TABLA DE VEHICULOS POR FINANCIAR -->      
+    
     <div class="container bg-light" style="padding-bottom: 10px; margin-bottom: 80px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF;">
         <table class="table table-boostrap-3 table-striped table-bordered tipo-letra text-center" style="width: 100%;">
                 <thead>
@@ -119,6 +130,7 @@
                 </thead>
                 <tbody>
                     <% 
+                        //Obtener parametro de la busqueda del formulario 
                         String busqueda = request.getParameter("busqueda");
                         for(Vehiculo v : VehiculosDAO.buscarVehiculo(busqueda)){
                             
@@ -135,6 +147,7 @@
                         <td> <%= v.getValorFactura() %> </td>
                         <td> <%= v.getImporteNeto() %> </td>
                         <td> 
+                            <!-- FORMULARIO PARA FINANCIAR UN VEHICULO -->
                             <form class="form-financiar" action="ControlVehiculos" method="post" enctype="multipart/form-data">
                                 <label for="nomFinanciera" class="tipo-letra">Financiera </label>
                                 <select id="nomFinanciera" name="nomFinanciera" class="control-form">

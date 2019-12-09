@@ -13,23 +13,6 @@ import modelo.Vehiculo;
 public class ControlBanco extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String accion = request.getParameter("accion");
-        
-        switch(accion){
-            case "Buscar":
-                request.getRequestDispatcher("financiera.jsp").forward(request, response);
-                break;
-            default:
-                System.out.println("Accion desconocida");
-                request.getRequestDispatcher("financiera.jsp").forward(request, response);
-                break;
-        }
-    }
-    
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        

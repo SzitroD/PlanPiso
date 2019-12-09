@@ -13,7 +13,7 @@
     if (usuarioValidado == null) {
         response.sendRedirect("login.jsp");
     }else{
-
+        //Parametros por defecto de la financiera
         int id = Integer.parseInt(request.getParameter("id"));
         String nombreBanco = request.getParameter("nomBanco");
         double interes = Float.parseFloat(request.getParameter("interes"));
@@ -38,6 +38,7 @@
                 <h2 class="text-center text-dark tipo-letra" >Formulario de Intereses</h2>
             </div>
         </div>
+        <!-- FORMULARIO PARA MODIFICAR DATOS DE UNA FINANCIERA -->
         <form class="container bg-light d-flex justify-content-between align-items-center tipo-letra" method="post" action="ControlBanco" style="border:2px solid #DFDFDF; flex-direction:column;">
             <input type="hidden" name="id" value="<%= id %>">
             <label for="nombreBanco">Nombre de banco: </label>

@@ -22,21 +22,6 @@ import javax.servlet.http.Part;
 public class ControlReportes extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String accion = request.getParameter("accion");
-        
-        if(accion.equals("Buscar")){
-            request.getRequestDispatcher("reporte.jsp").forward(request, response);
-        }else{
-            System.out.println("Accion desconocida");
-            
-        }
-        
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -97,8 +82,7 @@ public class ControlReportes extends HttpServlet {
         nombre = nombre_archivo.substring(0, posicion);
         
         r.insertarReporte(nombre,nombre_archivo,fecha);
-        request.setAttribute("mensaje", "Reporte ingresado con exito!!!");
-        request.getRequestDispatcher("reporte.jsp").forward(request, response);
+        request.getRequestDispatcher("archivos.jsp").forward(request, response);
     
     }
 

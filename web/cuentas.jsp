@@ -49,6 +49,8 @@
         </div>
     </div>
     
+    <!-- BOTONES PARA DESCARGAR LAS TABLAS EN FORMATO EXCEL -->
+    
     <div class="container col-12 bg-light text-center">
         <button id="btn-exportar-resumen" class="btn btn-success">
             EXCEL RESUMEN
@@ -66,11 +68,13 @@
     <div id="contenedor-excel-resumen" class="container bg-light" style="margin-bottom:80px" >
         
         <%
+        /*Variables para calcular el total de cada columna */
             int total_unidad = 0;
             double total_cf = 0;
             double total_neto = 0;
             double total_interes = 0;
             double total_pago = 0;
+            //Formato en que se presentan las cantidades 
             DecimalFormat formateador = new DecimalFormat("###,###,###.00");
             
                for(Bancos b: BancosDAO.listarBancos()){
@@ -85,6 +89,8 @@
             </div>
         </div>
             
+        <!-- TABLA DE RESUMEN -->
+                
         <div class="container" style=" padding-bottom: 10px;border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
              <table class="table table-responsive table-striped table-bordered tipo-letra text-center" style="width: 100%;">
                 <thead>
@@ -136,7 +142,8 @@
                     </tr>
                     </tbody>
                 </table>
-                        <%
+                        <%/*Devolver los valores a su inicio para que no afecte a la 
+                        siguiente tabla a calcular*/
                         total_unidad = 0; 
                         total_cf = 0;
                         total_neto = 0;
@@ -152,6 +159,7 @@
      <div id="contenedor-excel-vehiculos" class="container bg-light" style="display: none">
         
         <%
+            /*Variables para calcular el total de cada columna */
             int total_u = 0;
             double total_i = 0;
             double total_p = 0;
@@ -170,6 +178,8 @@
             </div>
         </div>
             
+        <!-- TABLA DE VEHICULOS QUE SE ENCUENTRAN EN EL RESUMEN -->
+        
         <div class="container" style=" border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
              <table class="table-responsive table table-striped table-bordered tipo-letra text-center" style="width: 100%; ">
                 <thead>
@@ -221,7 +231,8 @@
                     </tr>
                     </tbody>
                 </table>
-                   <%
+                   <%/*Devolver los valores a su inicio para que no afecte a la 
+                        siguiente tabla a calcular*/
                         total_u = 0; 
                         total_c = 0;
                         total_n = 0;
@@ -242,6 +253,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="./js/jquery/jquery.table2excel.min.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
     
  

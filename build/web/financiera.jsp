@@ -42,10 +42,14 @@
         </div>
     </div>
 
+    <!-- BOTON DE NUEVA FINANCIERA -->
+    
     <div class="container bg-light text-right" style="height: 50px;">
         <a href="registrar-financiera.jsp" class="btn btn-success">Nueva Financiera</a>
     </div>
-                
+              
+    <!-- TABLA DE FINANCIERAS -->
+    
     <div class="container bg-light" style="padding-bottom: 10px;margin-bottom: 80px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table-responsive table table-striped table-bordered tipo-letra text-center" style="width: 100%;">
             <thead>
@@ -69,6 +73,7 @@
                     <td> <%= b.getDiasExtra() %> </td>
                     <td class="interes"> <%= b.getInteresExtra() %> </td>
                     <td>
+                        <!-- FORMULARIO PARA MODIFICAR FINANCIERAS -->
                         <form action="ControlBanco" method="post" class="form-mod-interes">
                             <input type="hidden" name="id" value="<%= b.getIdBancos() %>">
                             <input type="hidden" name="nomBanco" value="<%= b.getNombreBanco() %>">
@@ -81,6 +86,7 @@
                         </form>
                     </td>
                     <td>
+                        <!-- FORMULARIO PARA ACTIVAR Y DESACTIVAR FINANCIERAS -->
                         <form action="ControlBanco" method="post" class="form-mod-interes">
                             <input type="hidden" name="id" value="<%= b.getIdBancos() %>">
                             <% if(b.getStatus() == 1){ %>

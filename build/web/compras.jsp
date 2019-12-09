@@ -53,8 +53,10 @@
         </div>
     </div>
     
+    <!-- FORMULARIO PARA FILTRADO DE VEHICULOS PIR VIN -->
+    
     <div class="container bg-light d-flex justify-content-end align-items-center" style="height: 100px;">
-        <form action="ControlCompras" method="get" class="form-inline w-80"  target="_blank">
+        <form action="ControlCompras" method="post" class="form-inline w-80" >
             <input type="search" name="busqueda" class="form-control mr-sm-2">
             <input type="submit" name="accion" value="Buscar" class="btn btn-outline-black my-2 my-sm-0">
         </form>
@@ -65,6 +67,8 @@
             <h3 class="text-center text-dark tipo-letra" style="padding-left: 15px;">Busqueda por financiera</h3>
         </div>
     </div>
+    
+    <!-- FORMULARIO PARA FILTRADO DE VEHICULOS POR NOMBRE DE FINANCIERA -->
     
     <div class="container bg-light" style="padding: 15px 0px;">
         <form class="row w-100 p-0 m-0 justify-content-around align-items-center" action="compras.jsp" method="post">
@@ -78,6 +82,8 @@
         %>
         </form>
     </div>
+    
+    <!-- TABLA DE VEHICULOS FILTRADO POR NOMBRE FINANCIERA -->    
     
     <form method="post" action="ControlCompras" class="container bg-light" style=" border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF " >  
         <div class="col-12 bg-white" style="padding-top:20px;">
@@ -122,14 +128,17 @@
                 </thead>
                 <tbody>
             <%  
-                
+                /*Variables para calcular intereses*/
                 int i = 0;
                 double impPago = 0;
                 double diferencia = 0;
                 String fechaString = null;
+                
+                    //Formato en que se presentan las cantidades 
                 DecimalFormat formateador = new DecimalFormat("###,###,###.00");
 
                 String observacion = null;
+                //Obtener parametro de la busqueda del formulario 
                 String busqueda = request.getParameter("nomFinanciera");
                 
                 for(VistaCompras v: VistasDAO.buscarCompraFinanciera(busqueda)){ 
@@ -151,6 +160,7 @@
                     <td> $<%= formateador.format(v.getImporteNeto()) %> </td>
                     <td> <%= v.getCarteraFinanciera() %> </td>
                     <td>
+                        <!-- CAMPO ACTUALIZABLE -->
                         <select name="statusFinanciamiento_<%= i %>" class="statusFinan">
                             <option value="<%= v.getStatusFinanciamiento() %>"><%= v.getStatusFinanciamiento() %></option>
                             <option value="PAGADA" > PAGADA </option>
@@ -158,7 +168,9 @@
                             <option value="REFINANCIADA" > REFINANCIADA </option>
 
                         </select> 
-
+                            
+                            <!-- Activa o desactiva el campo dependiendo si tiene o no el ststus de REFINANCIADA -->
+                            
                             <script>
 
                                 $(document).ready(function(){
@@ -175,6 +187,7 @@
                     </td>
                     <td> <%= v.getUbicacion() %> </td>
                     <td> 
+                        <!-- CAMPO ACTUALIZABLE -->
                         <select name="nomFinanciera_<%= i %>">
                             <option value="<%= v.getIdBanco() %>"><%= v.getNombreBanco() %></option>
                             <% for(Bancos b : BancosDAO.listarBancos()){ 
@@ -186,6 +199,7 @@
                         </select>  
                     </td> 
                     <td>
+                        <!-- CAMPO ACTUALIZABLE -->
                         <input type="date" name="fechaFinan_<%= i %>" value="<%= fechaString %>"> 
                         <input type="hidden" name="id_<%= i %>" value="<%= v.getVin() %>"> 
                     </td>
@@ -197,6 +211,7 @@
                         <%}%> 
                     </td>
                     <td>
+                        <!-- CAMPO ACTUALIZABLE -->
                         <input type="number" name="diasReales_<%= i %>" min="0" max="<%= v.getDiasFinanciamiento() %>" value="<%= v.getDiasRealesFinanciamiento() %>" >
                     </td>
                     <td class="calcular"> <%= v.getDias() %> </td>
@@ -208,6 +223,7 @@
                         <%}%>
                     </td>
                     <td class="calcular"> 
+                        <!-- CAMPO ACTUALIZABLE -->
                          <input type="text" name="interesReal_<%= i %>" 
                                value = "<% if(v.getStatusFinanciamiento().equals("REFINANCIADA")){ %><%= v.getInteresExtraReal() %><%}else{%><%= v.getInteresReal() %><%}%> "
                         >
@@ -226,6 +242,7 @@
                     <td> <%= v.getDb() %> </td>
                     <td> <%= v.getFechaCarga() %> </td>
                     <td>
+                        <!-- CAMPO ACTUALIZABLE -->
                         <select name="prioridad_<%= i %>">
                             <option value="<%= v.getPrioridadPago() %>"> <%= v.getPrioridadPago() %> </option>
                             <option value="NORMAL"> NORMAL </option>
@@ -236,6 +253,7 @@
                     </td>
                     <td> <%= v.getReportadoNVDR() %> </td>
                     <td>
+                        <!-- CAMPO ACTUALIZABLE -->
                         <input type="hidden" name="observaciones_<%= i %>" value=" <%= observacion %> ">
                         <%= v.getObservaciones() %> 
                     </td>

@@ -15,7 +15,7 @@
             <li class="nav-item "><a href="cuentas.jsp" class="nav-link tipo-letra">RESUMEN</a></li>
             <li class="nav-item "><a href="conciliacion.jsp" class="nav-link tipo-letra">CONCILIACION</a></li>
             <li class="nav-item "><a href="vehiculos.jsp" class="nav-link tipo-letra">FINANCIAR</a></li>
-            <li class="nav-item "><a href="reporte.jsp" class="nav-link tipo-letra">ARCHIVOS</a></li>
+            <li class="nav-item "><a href="archivos.jsp" class="nav-link tipo-letra">ARCHIVOS</a></li>
             <li class="nav-item "><a href="financiera.jsp" class="nav-link tipo-letra">FINANCIERA</a></li>
             <li class="nav-item "><a href="Logout" class="nav-link tipo-letra">CERRAR SESION</a></li>
         </ul>

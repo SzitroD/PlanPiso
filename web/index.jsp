@@ -47,6 +47,8 @@
             <h2 class="text-center text-dark tipo-letra" >Busqueda de vehiculo</h2>
         </div>
     </div>
+    
+    <!-- TABLA DE BUSQUEDA DE VEHICULOS -->
    
     <div class="container bg-light" style="padding-top: 20px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table table-striped table-bordered tipo-letra text-center" style="width: 100%;" id="table-boostrap">
@@ -67,6 +69,7 @@
               <tbody>
                 <% 
 
+                    //Formato en que se presentan las cantidades 
                     DecimalFormat formateador = new DecimalFormat("###,###,###.00");
                     for(VistaCompras v: VistasDAO.listarVehiculosFiltro()){
                         if(v.getStatusBanco()==1){
@@ -95,6 +98,8 @@
         </div>
     </div>
             
+    <!-- TABLA DE REFINANCIEMIENTO -->
+            
     <div class="container bg-light" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table  table-striped table-bordered tipo-letra text-center table-boostrap-2" >
             <thead>
@@ -113,9 +118,15 @@
                 <%  SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
                                     
                     for(VistaCompras v: VistasDAO.listarVehiculosFiltro()){ 
+                       
+                        /*Validar que la financiera este activa y su status sea REFINANCIADA*/    
                         if(v.getStatusBanco()==1){
                            
                             if(v.getStatusFinanciamiento().equals("REFINANCIADA")){
+                                
+                                /*Calcular proxima fecha de pago dependiendo de los dias de 
+                                refinanciamiento*/
+                                
                                 String fechaString = v.getFechaFinanciamiento();
                                 Date fechaDate = formato.parse(fechaString);
                                 Date proximaFechaDate = VehiculosDAO.sumaFecha(fechaDate, v.getDiasExtra());
@@ -153,6 +164,8 @@
         </div>
     </div>
 	
+    <!-- TABLA DE VEHICULOS VENCIDOS -->
+            
     <div class="container bg-light" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table table-striped table-boostrap-2 table-bordered tipo-letra text-center">
             <thead>
@@ -195,6 +208,9 @@
             </div>
         </div>
 
+                
+        <!-- TABLA DE VEHICULOS PROXIMOS A VENCER -->
+                
 	<div class="container bg-light" style="margin-bottom: 80px; padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
             <table class="table table-boostrap-2 table-striped table-bordered tipo-letra text-center">
                 <thead>
@@ -213,6 +229,8 @@
                         int diferencia = 0;
                         for(VistaCompras v: VistasDAO.listarVehiculosFiltro()){ 
                             if(v.getStatusBanco()==1){
+                            /*Validacion de que si un vehiculo se tienen que encuentrar a 20 o menos dias de 
+                            cumplir su fecha de financiamineto*/
                                 diferencia = v.getDiasRealesFinanciamiento() - v.getDias();
                                 
                                 if((diferencia <= 20 && diferencia > 0) && (v.getDias() >=1)){

@@ -37,6 +37,15 @@ public class ControlCompras extends HttpServlet {
             String accion = request.getParameter("accion");
            
             switch(accion){
+                case "Cancelar":
+                    request.getRequestDispatcher("compras.jsp").forward(request, response);
+                    break;
+                case "Buscar":
+                    request.getRequestDispatcher("compras-vin.jsp").forward(request, response);
+                    break;
+                case "Financiera":
+                    request.getRequestDispatcher("compras.jsp").forward(request, response);
+                    break;
                 case "Guardar":
                    
                     int repeticiones = Integer.parseInt(request.getParameter("repeticiones"));
@@ -55,7 +64,7 @@ public class ControlCompras extends HttpServlet {
                         double interesReal = 0;
                         String fechaActual = formato.format(new Date());
                         boolean bandera;
-                        
+                        /*Recibe parametros de cada fila de la tabla*/
                         try {
                             statusFinanciamiento = request.getParameter("statusFinanciamiento_" + i + "");
                         } catch (Exception e) {
@@ -108,7 +117,9 @@ public class ControlCompras extends HttpServlet {
                         System.out.println("fecha actual: "+fechaActual);
                         */
                         FinanciarDAO f = new FinanciarDAO();
-                        
+                        /*Identifica los dias reales de financiamiento dependiendo del id de banco
+                        este dato es en caso de que el status sea REFINANCIADA porque si posee ese status
+                        enviara valores nulos en fecha de financiamiento y dias reales*/
                         for(Financiar fi : FinanciarDAO.listarFinanciamiento()){
                             if(fi.getIdBanco() == idBanco){
                                 diaR = fi.getDiasReales();
@@ -119,6 +130,7 @@ public class ControlCompras extends HttpServlet {
                             fechaString = fechaActual;
                             diasReales = diaR;
                         }
+                        /*Filtro de status*/
                         bandera = statusFinanciamiento.equals("REFINANCIADA");
                         
                         if(bandera == true){
@@ -156,6 +168,7 @@ public class ControlCompras extends HttpServlet {
                    break;
                default :
                    request.getRequestDispatcher("compras.jsp").forward(request, response);
+                   System.out.println("Accion desconocida.......");
                    break;
                    
             }       

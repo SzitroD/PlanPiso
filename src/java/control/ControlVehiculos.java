@@ -28,24 +28,12 @@ import modelo.Financiar;
 public class ControlVehiculos extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String accion = request.getParameter("accion");
-        
-        if(accion.equals("Buscar")){
-            request.getRequestDispatcher("vehiculos.jsp").forward(request, response);
-        }else{
-            System.out.println("Accion desconocida");
-            
-        }
-    }
-    
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         String accion = request.getParameter("accion");
         
+        //Variables para guardar el archivo de conciliacion
         String nombre_archivo = null;
         int idBanco = 0;
         String fechaActual = null;
@@ -56,7 +44,7 @@ public class ControlVehiculos extends HttpServlet {
         String Banco = null;
         int diasReal = 0;
         
-        
+        //Variables para leer el archivo de conciliacion y actualizar el vehiculo
         final String SEPARATOR=";";
         BufferedReader br = null;
         String str = null;
@@ -69,6 +57,9 @@ public class ControlVehiculos extends HttpServlet {
         ReportesDAO r = new ReportesDAO();
         
         switch(accion){
+            case "Buscar":
+                request.getRequestDispatcher("vehiculos.jsp").forward(request, response);
+                break;
             case "Financiar":
                 
                 idBanco = Integer.parseInt(request.getParameter("nomFinanciera"));
@@ -119,6 +110,9 @@ public class ControlVehiculos extends HttpServlet {
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
                 String fecha = formato.format(new Date());
                 
+                //Primera parte
+                //Se guarda el archivo de conciliacion en una carpeta de respaldo y dentro del proyecto
+                
                 final String ruta = "C:/planpiso/respaldo_archivos";
                 final String ruta2 = "C:\\glassfish4\\glassfish\\domains\\domain1\\applications\\PlanPiso\\archivos";
                 final Part archivo = request.getPart("archivo");
@@ -159,6 +153,10 @@ public class ControlVehiculos extends HttpServlet {
                     }
                 }
                 
+                //Segunda parte
+                /*Se lee el archivo de conciliacion y se busca una coincidencia con algun vin de un vehiculo 
+                  financiado para actualizar su CF
+                */
                 try {
                     br =new BufferedReader(new FileReader("C:\\planpiso\\respaldo_archivos\\"+nombre_archivo+""));
                     String line = br.readLine();
@@ -217,7 +215,7 @@ public class ControlVehiculos extends HttpServlet {
         }
         
     }
-    
+    //Funcion para guardar un archivo
        private String getFileName(final Part part) {
         final String partHeader = part.getHeader("content-disposition");
         // LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);

@@ -30,6 +30,9 @@
                 <h2 class="text-center text-dark tipo-letra" >Formulario de Financiera</h2>
             </div>
         </div>
+        
+        <!-- FORMULARIO PARA REGISTRAR UNA NUEVA FINANCIERA -->
+        
         <form class="container bg-light d-flex justify-content-between align-items-center tipo-letra" action="ControlBanco" method="post"
               style="border:2px solid #DFDFDF; flex-direction:column;">
             
