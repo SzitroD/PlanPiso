@@ -42,14 +42,14 @@
  
     <%@include file="header.jsp" %>
     
+    <!-- TABLA DE BUSQUEDA DE VEHICULOS -->
+    
     <div class="container-fluid bg-light" style="margin-top:75px; height: 80px;">
         <div class="row align-items-center justify-content-center h-100">
             <h2 class="text-center text-dark tipo-letra" >Busqueda de vehiculo</h2>
         </div>
     </div>
     
-    <!-- TABLA DE BUSQUEDA DE VEHICULOS -->
-   
     <div class="container bg-light" style="padding-top: 20px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table table-striped table-bordered tipo-letra text-center" style="width: 100%;" id="table-boostrap">
               <thead>
@@ -91,14 +91,14 @@
             </tbody>
         </table>
     </div>
+            
+    <!-- TABLA DE REFINANCIEMIENTO -->
         
     <div class="container-fluid bg-light" style="height: 80px;">
         <div class="row align-items-center justify-content-center h-100">
             <h2 class="text-center text-dark tipo-letra">Vehiculos Refinanciados</h2>
         </div>
     </div>
-            
-    <!-- TABLA DE REFINANCIEMIENTO -->
             
     <div class="container bg-light" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table  table-striped table-bordered tipo-letra text-center table-boostrap-2" >
@@ -157,15 +157,15 @@
             <h2 class="text-center text-dark tipo-letra">Estado de vehiculos</h2>
         </div>
     </div>
-
+	
+    <!-- TABLA DE VEHICULOS VENCIDOS -->
+    
     <div class="container">
         <div class="row align-items-center justify-content-center h-100" style="background-color: #F2F2F2;">
             <h3 class="text-left text-secondary tipo-letra">Vencidos</h3>
         </div>
     </div>
-	
-    <!-- TABLA DE VEHICULOS VENCIDOS -->
-            
+        
     <div class="container bg-light" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <table class="table table-striped table-boostrap-2 table-bordered tipo-letra text-center">
             <thead>
@@ -201,17 +201,16 @@
                 </tbody>
             </table>
         </div>
-                
+            
+        <!-- TABLA DE VEHICULOS PROXIMOS A VENCER -->
+                    
         <div class="container">
             <div class="row align-items-center justify-content-center h-100" style="background-color: #F2F2F2;">
                 <h3 class="text-left text-secondary tipo-letra">Proximos a Vencer</h3>
             </div>
         </div>
-
-                
-        <!-- TABLA DE VEHICULOS PROXIMOS A VENCER -->
-                
-	<div class="container bg-light" style="margin-bottom: 80px; padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+            
+	<div class="container bg-light" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
             <table class="table table-boostrap-2 table-striped table-bordered tipo-letra text-center">
                 <thead>
                     <tr>
@@ -229,11 +228,11 @@
                         int diferencia = 0;
                         for(VistaCompras v: VistasDAO.listarVehiculosFiltro()){ 
                             if(v.getStatusBanco()==1){
-                            /*Validacion de que si un vehiculo se tienen que encuentrar a 20 o menos dias de 
+                            /*Validacion de que si un vehiculo se encuentrar a 20 o menos dias de 
                             cumplir su fecha de financiamineto*/
                                 diferencia = v.getDiasRealesFinanciamiento() - v.getDias();
                                 
-                                if((diferencia <= 20 && diferencia > 0) && (v.getDias() >=1)){
+                                if((diferencia <= 10 && diferencia > 0) && (v.getDias() >=1)){
                     %>
                     <tr>
                         <td><%= v.getVin() %></td>
@@ -252,6 +251,57 @@
             </table>
         </div>
       
+        <!-- TABLA DE VEHICULOS CON MAS DE 365 DIAS DE FINANCIAMIENTO -->
+                    
+       <div class="container-fluid bg-light" style="height: 80px;">
+            <div class="row align-items-center justify-content-center h-100">
+                <h2 class="text-center text-dark tipo-letra">Vehiculos sin seguro</h2>
+            </div>
+        </div>
+            
+	<div class="container bg-light" style="margin-bottom: 80px; padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+            <table class="table table-boostrap-2 table-striped table-bordered tipo-letra text-center">
+                <thead>
+                    <tr>
+                        <th>Vin</th>
+                        <th>Fecha Compra</th>
+                        <th>Dias transcurridos desde Fecha Compra</th>
+                        <th>Marca</th>
+                        <th>Fecha de Financiamiento</th>
+                        <th class="column">Financiado con</th>
+                        <th class="column">Dias de Financiamiento</th>
+                        <th>Dias transcurridos</th>
+                        <th class="column">Importe a pagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%  
+                        int year = 365;
+                        for(VistaCompras v: VistasDAO.listarVehiculosSinSeguro()){ 
+                            if(v.getStatusBanco()==1){
+                            /*Validacion de que si un vehiculo tiene 365 dias o mas desde su fecha
+                                de financiamiento, esto indica que el vehiculo se quedo sin seguro*/
+                                if(v.getDiasSeguro() >= year){
+                    %>
+                    <tr>
+                        <td><%= v.getVin() %></td>
+                        <td> <%= v.getFechaCompra() %> </td>
+                        <td><%= v.getDiasSeguro() %></td>
+                        <td><%= v.getMarca() %></td>
+                        <td><%= v.getFechaFinanciamiento() %></td>
+                        <td class="column"><%= v.getNombreBanco() %></td>
+                        <td class="column"><%= v.getDiasRealesFinanciamiento() %></td>
+                        <td><%= v.getDias() %></td>
+                        <td class="column"> $<%= formateador.format(v.getTotalPago()) %></td>
+                    </tr>
+                    <%          }
+                            } 
+                        }
+                    %>
+                </tbody>
+            </table>
+        </div>
+                
         <%@include file="footer.jsp" %>
                 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

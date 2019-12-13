@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 public class UsuariosDAO {
     
+    //Validar que el usuario este registrado dentro de la base de datos
    public Boolean validarUsuario(String usuario, String contraseña) {
         Boolean status = false;
         Connection con = new ConexionMySQL().conectarPP();

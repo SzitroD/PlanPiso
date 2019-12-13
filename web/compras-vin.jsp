@@ -82,18 +82,20 @@
                 double impPago = 0;
                 double diferencia = 0;
                 String fechaString = null;
+                //Lista para recorrer observacion
+                //int banderaObs = 0;
+                String observacion = null;
+                
                 //Formato en que se presentan las cantidades 
                 DecimalFormat formateador = new DecimalFormat("###,###,###.00");
-
-                String observacion = null;
                 //Obtener parametro de la busqueda del formulario 
                 String busqueda = request.getParameter("busqueda");
                 for(VistaCompras v: VistasDAO.buscarCompraVin(busqueda)){ 
                     
+                    observacion = v.getNombreBanco();
+                    
                     i++;
                     fechaString = v.getFechaFinanciamiento();
-
-                    observacion = v.getNombreBanco();
                     diferencia = v.getImporteNeto() - v.getCf();
                     impPago = v.getInteresVehiculo() + v.getImporteNeto();
 
@@ -113,6 +115,8 @@
                             <option value="PAGADA" > PAGADA </option>
                             <option value="FINANCIADA" > FINANCIADA </option>
                             <option value="REFINANCIADA" > REFINANCIADA </option>
+                            <option value="REDUCCION" > REDUCCION </option>
+                            <option value="ENTREGADO" > ENTREGADO </option>
 
                         </select> 
                         <!-- Activa o desactiva el campo dependiendo si tiene o no el ststus de REFINANCIADA -->
@@ -198,7 +202,10 @@
                         </select>
 
                     </td>
-                    <td> <%= v.getReportadoNVDR() %> </td>
+                    <td>
+                        <!-- CAMPO ACTUALIZABLE -->
+                        <input type="date" name="fechaNVDR_<%= i %>" value="<%= v.getReportadoNVDR() %>"> 
+                    </td>
                     <td>
                         <!-- CAMPO ACTUALIZABLE -->
                         <input type="hidden" name="observaciones_<%= i %>" value=" <%= observacion %> ">

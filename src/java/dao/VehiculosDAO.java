@@ -17,23 +17,7 @@ public class VehiculosDAO {
     
     Connection con = ConexionMySQL.conectarPP();
     
-    /*
-    public void ingresarDatosCSV (String nombre){
-        try{
-            String SQL = "LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/"+nombre+"'\n" +
-                        "INTO TABLE vehiculo\n" +
-                        "FIELDS TERMINATED BY ','\n" +
-                        "ENCLOSED BY '\"'\n" +
-                        "LINES TERMINATED BY '\\n'\n" +
-                        "IGNORE 1 ROWS;";
-            Connection con = ConexionMySQL.conectarPP();
-            PreparedStatement ps = con.prepareStatement(SQL);
-            ResultSet rs = ps.executeQuery();
-        }catch(SQLException e){
-            System.out.println("Error al cargar el archivo: "+e.getLocalizedMessage());
-        }
-    }*/
-    
+    //Listar todos los vehiculos sin ningun filtro
     public static ArrayList<Vehiculo> listarVehiculo(){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -86,6 +70,7 @@ public class VehiculosDAO {
             return lista;
     }
     
+    //Listar vehiculos que no esten financiados
     public static ArrayList<Vehiculo> listarVehiculoFinanciar(){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -138,6 +123,7 @@ public class VehiculosDAO {
             return lista;
     }
     
+    //Listar vehiculos por vin y que estos no esten financiados
     public static ArrayList<Vehiculo> buscarVehiculo(String busqueda){
         Connection conPP = ConexionMySQL.conectarPP();
         ArrayList<Vehiculo> lista = new ArrayList<>();
@@ -197,36 +183,5 @@ public class VehiculosDAO {
         return calendar.getTime();
         
     }
-    /*
-    public void modificarVehiculo(String status, String vin , int diasReales){
-         if(con == null ){
-            con = ConexionMySQL.conectarPP();
-        }
-        if(con != null){
-            try{
-                String SQl = "UPDATE vehiculo SET "
-                        +   "status = ? ,"
-                        +   "dias_reales_financiamiento = ? "
-                        +   "WHERE vin = ?";
-                PreparedStatement ps = con.prepareStatement(SQl);
-
-                ps.setString(3, vin);
-                ps.setString(1, status);
-                ps.setInt(2, diasReales);
-
-                ps.executeUpdate();
-            }catch(SQLException e){
-                System.out.println("Error al modificar el vehiculo: "+e.getLocalizedMessage());
-            }finally {
-                    try {
-                        con.close();
-                    } catch (SQLException ee) {
-                        System.out.println("SQL ERROR-2 " + ee.getSQLState() + ee.getMessage());
-                    }
-                }
-        }
-    }
-    */
-   
     
 }

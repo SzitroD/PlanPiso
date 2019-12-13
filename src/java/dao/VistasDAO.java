@@ -10,6 +10,8 @@ import java.util.Date;
 import modelo.VistaCompras;
 
 public class VistasDAO {
+    
+    //Buscar vehiculos por nombre de financiera
     public static ArrayList<VistaCompras> buscarCompraFinanciera(String financiera){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -98,6 +100,8 @@ public class VistasDAO {
         }
                 return lista;
     }
+    
+    //Buscar vehiculos por vin 
     public static ArrayList<VistaCompras> buscarCompraVin(String vin){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -187,6 +191,7 @@ public class VistasDAO {
                 return lista;
     }
     
+    //Buscar vehiculos por vin, calculando el interes total 
     public static ArrayList<VistaCompras> buscarVehiculo(String vin){
          Connection conPP = ConexionMySQL.conectarPP();
         ArrayList<VistaCompras> lista = new ArrayList<>();
@@ -242,6 +247,7 @@ public class VistasDAO {
                 return lista;
     }
     
+    //Buscar vehiculos con calculos de interes, dias transcurridos y total a pagar para conciliacion.jsp
      public static ArrayList<VistaCompras> listas_conciliacion(){
         Connection conPP = ConexionMySQL.conectarPP();
         ArrayList<VistaCompras> lista = new ArrayList<>();
@@ -310,6 +316,7 @@ public class VistasDAO {
     
     }
     
+    //Buscar vehiculos por nombre de financiera, con status = PAGADA 
      public static ArrayList<VistaCompras> buscarPagadas(String financiera){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -398,6 +405,8 @@ public class VistasDAO {
                 return lista;
     }
      
+     
+     //Buscar vehiculos por vin con status = PAGADA
     public static ArrayList<VistaCompras> buscarPagadasVin(String vin){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -486,6 +495,7 @@ public class VistasDAO {
                 return lista;
     } 
      
+    //Listar vehiculos con interes y total de pago para generar informacion necesaria para un archivo excel
      public static ArrayList<VistaCompras> listarVehiculosExcel(){
          Connection conPP = ConexionMySQL.conectarPP();
         ArrayList<VistaCompras> lista = new ArrayList<>();
@@ -602,7 +612,7 @@ public class VistasDAO {
         }
                 return lista;
     }
-    
+    //Listar todos los vehiculos sin ningun filtro
     public static ArrayList<VistaCompras> listarVehiculos(){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -693,6 +703,7 @@ public class VistasDAO {
                 return lista;
     }
     
+    //Listar todos los vehiculos con un status = PAGADA
     public static ArrayList<VistaCompras> listarVehiculosPagados(){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -772,6 +783,71 @@ public class VistasDAO {
                 System.out.println("Error al buscar en la vista: "+e.getLocalizedMessage());
                 return null;
             }finally {
+                        try {
+                            conPP.close();
+                        } catch (SQLException ee) {
+                            System.out.println("SQL ERROR-2 " + ee.getSQLState() + ee.getMessage());
+                        }
+                    }
+        }
+                return lista;
+    }
+    
+//Listar vehiculos sin seguro. Vehiculos que sobrepasan 365 dias desde su fecha de compra    
+    public static ArrayList<VistaCompras> listarVehiculosSinSeguro(){
+         
+        Connection conPP = ConexionMySQL.conectarPP();
+        ArrayList<VistaCompras> lista = new ArrayList<>();
+        
+        if(conPP == null){
+            conPP = ConexionMySQL.conectarPP();
+        }
+        if(conPP != null){
+        try{
+            String SQL = 
+                "SELECT fecha_compra,diasExtra,statusBanco,vin,marca,ubicacion,prioridad_pago,cartera_financiera,statusFinanciamiento,fecha_financiamiento,nombreBanco,dias_reales,dias,\n" +
+                "case \n"+ 
+                "   when `fecha_compra` > '2000-01-01' \n"+
+                "   then (TO_DAYS(CURDATE()) - TO_DAYS(`fecha_compra`))\n" +
+                "end as dias_seguro, \n" +
+                "case \n" +
+                "   when dias <= vista_general.dias_reales and statusFinanciamiento != 'REFINANCIADA' then ((((vista_general.interes_real/100) * (vista_general.valor_factura))/360) * dias) + vista_general.valor_factura\n" +
+                "   when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then ((((0/100)  * vista_general.valor_factura)/360)* dias) + vista_general.valor_factura\n" +
+                "   when statusFinanciamiento = 'REFINANCIADA' then ((((vista_general.interes_extra_real/100) * (vista_general.valor_factura))/360) * dias) + vista_general.valor_factura\n" +
+                "end as total_pago\n" +
+                "FROM plan_piso.vista_general "
+                    + "WHERE statusBanco = 1";
+            PreparedStatement ps = conPP.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            
+            
+            while(rs.next()){
+                VistaCompras v = new VistaCompras();
+                
+                v.setFechaCompra(rs.getString("fecha_compra"));
+                v.setStatusBanco(rs.getInt("statusBanco"));
+                v.setVin(rs.getString("vin"));
+                v.setMarca(rs.getString("marca"));
+                v.setUbicacion(rs.getString("ubicacion"));
+                v.setPrioridadPago(rs.getString("prioridad_pago"));
+                v.setCarteraFinanciera(rs.getString("cartera_financiera"));
+                v.setStatusFinanciamiento(rs.getString("statusFinanciamiento"));
+                v.setFechaFinanciamiento(rs.getString("fecha_financiamiento"));
+                v.setNombreBanco(rs.getString("nombreBanco"));
+                v.setDiasRealesFinanciamiento(rs.getInt("dias_reales"));
+                v.setDias(rs.getInt("dias"));
+                v.setDiasExtra(rs.getInt("diasExtra"));
+                v.setDiasSeguro(rs.getInt("dias_seguro"));
+                
+                v.setTotalPago(rs.getDouble("total_pago"));
+                
+                lista.add(v);
+            }
+            return lista;
+        }catch(SQLException e){
+            System.out.println("Error al buscar en la vista: "+e.getLocalizedMessage());
+            return null;
+        }finally {
                         try {
                             conPP.close();
                         } catch (SQLException ee) {

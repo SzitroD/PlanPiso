@@ -65,94 +65,19 @@
         </div>
     </div>
     
-    <div class="container bg-light" style="margin-bottom:80px" >
-        
-        <%
-            /*Variables para calcular el total de cada columna en la tabla*/
-            int total_unidad = 0;
-            double total_cf = 0;
-            double total_neto = 0;
-            double total_interes = 0;
-            DecimalFormat formateador = new DecimalFormat("###,###,###.00");
+    <%
+        /*Variables para calcular el total de cada columna en la tabla*/
+        int total_unidad = 0;
+        int diferencia_vehiculos = 0;
+        double total_cf = 0;
+        double total_neto = 0;
+        double total_interes = 0;
+        DecimalFormat formateador = new DecimalFormat("###,###,###.00");
+
+
+    %>
             
-            /*Va a generar una tabla por cada financiera que exista*/   
-            for(Bancos b: BancosDAO.listarBancos()){
-                   if(b.getStatus()==1){
-            %>
-            
-        <div class="container">
-            <div class="row align-items-center justify-content-start h-100">
-                <h4  class="text-dark tipo-letra">
-                    <%= b.getNombreBanco() %>
-                </h4>
-            </div>
-        </div>
-            
-        <!-- TABLA QUE MUESTRAR LA CONCILIACION DE CADA FINANCIERA -->
-                
-        <div class="container" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
-            <table class="table-responsive table table-striped table-bordered tipo-letra text-center " style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th colspan="5"><%= b.getNombreBanco() %></th> 
-                    </tr>
-                    <tr>
-                        <th>Prioridad</th>
-                        <th>Total Unidades</th>
-                        <th>Total Importe Neto</th>
-                        <th>Total Interes</th>
-                        <th>Total CF</th>
-                    </tr>
-                </thead>
-                <tbody class="tbody">
-            <% 
-                for(VistaCompras v : VistasDAO.listas_conciliacion()){
-                        
-                    if((b.getIdBancos() == v.getIdBanco())){ 
-                        if(v.getTotalVehiculos() > 0){
-                            total_unidad += v.getTotalVehiculos();
-                            total_neto += v.getTotalImporteNeto();   
-                            total_interes += v.getTotalInteres();
-                            total_cf += v.getTotalCF();
-            %>
-                    <tr>
-                        <td> <%= v.getPrioridadPago() %> </td>
-                        <td> <%= v.getTotalVehiculos() %> </td>
-                        <td> $<%= formateador.format(v.getTotalImporteNeto()) %> </td>
-                        <td> $<%= formateador.format(v.getTotalInteres()) %> </td>
-                        <td> $<%= formateador.format(v.getTotalCF()) %> </td>
-                    </tr>
-                <%      
-                            }
-                    }
-                }
-               
-                %>
-                    <tr>
-                        <td class="td-resultado"> Total de <%= b.getNombreBanco() %></td>
-                        <td> <%= total_unidad %> </td>
-                        <td> $<%= formateador.format(total_neto) %> </td>
-                        <td> $<%= formateador.format(total_interes) %> </td>
-                        <td> $<%= formateador.format(total_cf) %> </td>
-                    </tr>
-                    </tbody>
-                </table>
-                        <%
-                        /*Devolver los valores a su inicio para que no afecte a la 
-                        siguiente tabla a calcular*/
-                        total_unidad = 0; 
-                        total_cf = 0;
-                        total_neto = 0;
-                        total_interes = 0;
-                %>      
-            </div>
-            <%      }
-                } 
-            %>
-        		
-    </div>
-            
-    <div id="contenedor-excel-conciliacion" class="container" style="display: none">
+    <div id="contenedor-excel-conciliacion" class="container bg-light" style="margin-bottom: 80px; padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
         <%
                 List<String> listaFinanciera = new ArrayList();
                 String[] lista = null;
@@ -177,17 +102,19 @@
                 /*Imprime la tabla con cada valor que encuentre en listaFinanciera*/
                 for(int j = 0;j < listaFinanciera.size();j++){
                %>
-        <div class="contenedor-titulo titulo-secundario">
-            <h4 class="titulo">
-                <%= listaFinanciera.get(j) %>
-            </h4>
+        <div class="container">
+            <div class="row align-items-center justify-content-start h-100">
+                <h4  class="text-dark tipo-letra">
+                     <%= listaFinanciera.get(j) %>
+                </h4>
+            </div>
         </div>
-            
+               
         <!-- TABLA RESUMEN DE CONCILIACION | TABLA QUE SE DESCARGA EN FORMATO EXCEL -->    
             
-        <div class="contendor-tabla">
-            <table class="table">
-                <thead class="thead">
+        <div class="container" style="padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+            <table class="table-responsive table table-striped table-bordered tipo-letra text-center " style="width: 100%;">
+                <thead>
                     <tr>
                         <th colspan="5"><%= listaFinanciera.get(j) %></th> 
                     </tr>
@@ -199,7 +126,7 @@
                         <th>Total CF</th>
                     </tr>
                 </thead>
-                <tbody class="tbody">
+                <tbody>
                 <%
                 
                 /*Filtra y calcula cada vehiculo para que pertenesca a la financiera que corresponde en listaFinanciera
@@ -284,9 +211,12 @@
                         <td>  </td>
                         <td> $<%= formateador.format(totalCfConciliacion) %> </td>
                     </tr>
+                    <%
+                        diferencia_vehiculos = total_unidad - totalVehiculosConciliacion;
+                    %>
                     <tr>
                         <td> Diferencia </td>
-                        <td></td>
+                        <td> <%= diferencia_vehiculos %> </td>
                         <td></td>
                         <td></td>
                         <td> $<%= formateador.format(diferenciaConciliacion) %> </td>
@@ -308,7 +238,7 @@
             <%          
                }
             %>
-            </div>
+    </div>
     <%@include file="footer.jsp" %>
  
     

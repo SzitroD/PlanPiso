@@ -12,6 +12,7 @@ public class BancosDAO {
     
     Connection con = ConexionMySQL.conectarPP();
     
+    //Listar todas las financieras
     public static ArrayList<Bancos> listarBancos(){
         Connection conPP = ConexionMySQL.conectarPP();
         ArrayList<Bancos> lista = new ArrayList<>();
@@ -54,6 +55,7 @@ public class BancosDAO {
                 return lista;
     }
     
+    //Actualizar las propiedades de una financiera 
     public void modificarBanco(String nombre, double interes, int dias, int diasExtra, double interesExtra,int id,int diasLibres){
         if(con == null ){
             con = ConexionMySQL.conectarPP();
@@ -91,6 +93,7 @@ public class BancosDAO {
         }
     }
     
+    //Insertar una nueva financiera 
     public void insertarBanco(String nombreBanco,double interes, int diasInteres, int diasExtra, double interesExtra, int diasLibres){
          if(con == null ){
             con = ConexionMySQL.conectarPP();
@@ -123,6 +126,7 @@ public class BancosDAO {
         }
     }
     
+    //Activar una financiera
     public void activarBanco(int id){
          if(con == null ){
             con = ConexionMySQL.conectarPP();
@@ -148,6 +152,7 @@ public class BancosDAO {
         }
     }
     
+    //Desactivar una financiera 
     public void desactivarBanco(int id){
         if(con == null ){
             con = ConexionMySQL.conectarPP();

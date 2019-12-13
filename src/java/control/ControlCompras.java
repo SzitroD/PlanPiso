@@ -61,7 +61,9 @@ public class ControlCompras extends HttpServlet {
                         String prioridad = null;
                         int diasReales = 0;
                         String observaciones = null;
+                       
                         double interesReal = 0;
+                        String fechaNVDR = null;
                         String fechaActual = formato.format(new Date());
                         boolean bandera;
                         /*Recibe parametros de cada fila de la tabla*/
@@ -105,6 +107,11 @@ public class ControlCompras extends HttpServlet {
                         }catch(Exception e){
                             System.out.println("Error al recibir interes real: "+e.getLocalizedMessage());
                         }
+                        try{
+                            fechaNVDR = request.getParameter("fechaNVDR_"+i+"");
+                        }catch(Exception e){
+                            System.out.println("Error al recibir fecha NVDR: "+e.getLocalizedMessage());
+                        }
                         /*
                         System.out.println("idBanco: "+idBanco);
                         System.out.println("id: "+vin);
@@ -115,17 +122,19 @@ public class ControlCompras extends HttpServlet {
                         System.out.println("interesReal: "+interesReal);
                         System.out.println("statusFinanciamiento: "+statusFinanciamiento);
                         System.out.println("fecha actual: "+fechaActual);
+                        System.out.println("fecha reporte NVDR: "+fechaNVDR);
                         */
+                        
                         FinanciarDAO f = new FinanciarDAO();
                         /*Identifica los dias reales de financiamiento dependiendo del id de banco
                         este dato es en caso de que el status sea REFINANCIADA porque si posee ese status
                         enviara valores nulos en fecha de financiamiento y dias reales*/
+                        
                         for(Financiar fi : FinanciarDAO.listarFinanciamiento()){
                             if(fi.getIdBanco() == idBanco){
                                 diaR = fi.getDiasReales();
                             }
                         }
-                        
                         if(diasReales == 0 || fechaString == null){
                             fechaString = fechaActual;
                             diasReales = diaR;
@@ -138,9 +147,9 @@ public class ControlCompras extends HttpServlet {
                             System.out.println("status = REFINANCIADA");
                                 if((idBanco != 0) && (vin != null) && (vin != null) && (fechaString != null) && 
                                 (diasReales >= 0) && (prioridad != null) && (observaciones != null) && 
-                                (interesReal >= 0) && (statusFinanciamiento != null)){
+                                (interesReal >= 0) && (statusFinanciamiento != null) && (fechaNVDR != null)){
 
-                                    f.refinanciemiento(idBanco, fechaString,vin,diasReales,prioridad,observaciones,interesReal,statusFinanciamiento);
+                                    f.refinanciemiento(idBanco, fechaString,vin,diasReales,prioridad,observaciones,interesReal,statusFinanciamiento,fechaNVDR);
 
                                 }else{
                                     System.out.println("Error al actualizar, status = REFINANCIADA");
@@ -151,9 +160,9 @@ public class ControlCompras extends HttpServlet {
                                 
                                 if((idBanco != 0) && (vin != null) && (vin != null) && (fechaString != null) && 
                                 (diasReales >= 0) && (prioridad != null) && (observaciones != null) && 
-                                (interesReal >= 0) && (statusFinanciamiento != null)){
+                                (interesReal >= 0) && (statusFinanciamiento != null) && (fechaNVDR != null)){
 
-                                    f.actualizar(idBanco, fechaString,vin,diasReales,prioridad,observaciones,interesReal,statusFinanciamiento);
+                                    f.actualizar(idBanco, fechaString,vin,diasReales,prioridad,observaciones,interesReal,statusFinanciamiento,fechaNVDR);
 
                                 }else{
                                     System.out.println("Error al actualizar, status != REFINANCIADA");

@@ -43,6 +43,8 @@ public class ControlVehiculos extends HttpServlet {
         String fechaCompra = null;
         String Banco = null;
         int diasReal = 0;
+        String fechaNVDR = null;
+        String observaciones = null;
         
         //Variables para leer el archivo de conciliacion y actualizar el vehiculo
         final String SEPARATOR=";";
@@ -67,30 +69,35 @@ public class ControlVehiculos extends HttpServlet {
                 vin = request.getParameter("vin");
                 status = request.getParameter("status");
                 fechaCompra = request.getParameter("fechaCompra");
+                fechaNVDR = fechaActual;
+                
                 /*    System.out.println("vin:" +vin);
                 System.out.println("statsu:" +status);
                 System.out.println("financiera:" +idBanco);
                 System.out.println("fecha:" +fechaActual);
                 System.out.println("interesReal:" +interesReal);*/
-
+                
+                //Obtiene valores por defecto de cada financiera para asignale valores al financiamiento
                 for(Bancos b: BancosDAO.listarBancos()){
                     if(b.getIdBancos() == idBanco){
                         Banco = b.getNombreBanco();
                         diasReal = b.getDiasFinanciamiento();
                         interesReal = b.getInteres();
+                        observaciones = b.getNombreBanco();
                     }
                 }
-                
+                //Verifica si el vehiculo con el que se financio es alguno de FCA
                 int bandera = Banco.indexOf("FCA");
                 
                 if((idBanco != 0) && (vin != null && (fechaActual != null) && (status != null) && (interesReal >= 0) && (fechaCompra != null)) 
                         && (diasReal >= 0)){
+                    //Si identifica que la financiera es FCA utiliza la fecha de compra como fecha de financiamiento
                     if(bandera == 0){
-                        f.insertarFinanciamiento(vin,idBanco, fechaCompra,interesReal, diasReal);
+                        f.insertarFinanciamiento(vin,idBanco, fechaCompra,interesReal, diasReal,fechaNVDR ,observaciones);
                     }else{
-                        f.insertarFinanciamiento(vin,idBanco, fechaActual,interesReal, diasReal);
+                        f.insertarFinanciamiento(vin,idBanco, fechaActual,interesReal, diasReal,fechaNVDR,observaciones);
                     }
-                    //v.modificarVehiculo(status, vin, diasReales);
+                    
                     //System.out.println("SI se financio el vehiculo");
                 }else{
                     //System.out.println("NO se financio el vehiculo");

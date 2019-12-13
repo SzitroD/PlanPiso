@@ -14,20 +14,23 @@ public class FinanciarDAO {
     
     Connection con = ConexionMySQL.conectarPP();
     
-    public void insertarFinanciamiento(String vin,int idBanco, String fechaFinanciamiento,double interesReal, int diasReal){
+    //Ingresar un nuevo vehiculo a una financiera
+    public void insertarFinanciamiento(String vin,int idBanco, String fechaFinanciamiento,double interesReal, int diasReal, String fechaNVDR,String observacion){
         if(con == null ){
             con = ConexionMySQL.conectarPP();
         }
         if(con != null){
             try{
-                String SQL = "INSERT INTO financiar(vin_vehiculo,id_banco,fecha_financiamiento,interes_real,dias_reales) "
-                        +   "VALUES (?,?,?,?,?)";
+                String SQL = "INSERT INTO financiar(vin_vehiculo,id_banco,fecha_financiamiento,interes_real,dias_reales,reportado_nvdr,observaciones) "
+                        +   "VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(SQL);
                 ps.setString(1, vin);
                 ps.setInt(2, idBanco);
                 ps.setString(3, fechaFinanciamiento);
                 ps.setDouble(4, interesReal);
                 ps.setInt(5, diasReal);
+                ps.setString(6, fechaFinanciamiento);
+                ps.setString(7, observacion);
 
                 ps.executeUpdate();
             }catch(SQLException e){
@@ -41,7 +44,9 @@ public class FinanciarDAO {
                 }
         }
     }
-    public void actualizar(int idBanco, String fechaFinanciamiento,String vin,int dias, String prioridad, String observaciones,double interesReal,String statusFinanciamiento){
+    
+    //Actualizar las propiedades de un vehiculo financiado
+    public void actualizar(int idBanco, String fechaFinanciamiento,String vin,int dias, String prioridad, String observaciones,double interesReal,String statusFinanciamiento, String fechaNVDR){
         if(con == null ){
             con = ConexionMySQL.conectarPP();
         }
@@ -54,11 +59,12 @@ public class FinanciarDAO {
                         +   "prioridad_pago = ?, "
                         +   "observaciones = ?, "
                         +   "interes_real = ?, "
-                        +   "status = ? "
+                        +   "status = ?, "
+                        +   "reportado_nvdr = ?"
                         +   "WHERE vin_vehiculo = ?";
 
                 PreparedStatement ps = con.prepareStatement(SQL);
-                ps.setString(8, vin);
+                ps.setString(9, vin);
                 ps.setInt(1, idBanco);
                 ps.setString(2, fechaFinanciamiento);
                 ps.setInt(3, dias);
@@ -66,6 +72,7 @@ public class FinanciarDAO {
                 ps.setString(5, observaciones);
                 ps.setDouble(6, interesReal);
                 ps.setString(7,statusFinanciamiento);
+                ps.setString(8,fechaNVDR);
 
                 ps.executeUpdate();
             }catch(SQLException e){
@@ -80,7 +87,10 @@ public class FinanciarDAO {
         }
     }
     
-    public void refinanciemiento(int idBanco, String fechaFinanciamiento,String vin,int dias, String prioridad, String observaciones,double interesExtraReal,String statusFinanciamiento){
+    
+    //Cambiar el estado de un vehiculo a refinanciado
+    public void refinanciemiento(int idBanco, String fechaFinanciamiento,String vin,int dias, String prioridad, String observaciones,double interesExtraReal,String statusFinanciamiento
+                                ,String fechaNVDR){
         if(con == null ){
             con = ConexionMySQL.conectarPP();
         }
@@ -93,11 +103,12 @@ public class FinanciarDAO {
                         +   "prioridad_pago = ?, "
                         +   "observaciones = ?, "
                         +   "interes_extra_real = ?, "
-                        +   "status = ? "
+                        +   "status = ? ,"
+                        +   "reportado_nvdr = ? "
                         +   "WHERE vin_vehiculo = ?";
 
                 PreparedStatement ps = con.prepareStatement(SQL);
-                ps.setString(8, vin);
+                ps.setString(9, vin);
                 ps.setInt(1, idBanco);
                 ps.setString(2, fechaFinanciamiento);
                 ps.setInt(3, dias);
@@ -105,6 +116,7 @@ public class FinanciarDAO {
                 ps.setString(5, observaciones);
                 ps.setDouble(6, interesExtraReal);
                 ps.setString(7,statusFinanciamiento);
+                ps.setString(8,fechaNVDR);
 
                 ps.executeUpdate();
             }catch(SQLException e){
@@ -119,6 +131,7 @@ public class FinanciarDAO {
         }
     }
     
+    //Actualizar el campo de CF de un vehiculo con un archivo de conciliacion
     public void cargarConciliacion(double valor,String vin){
         if(con == null ){
             con = ConexionMySQL.conectarPP();
@@ -145,6 +158,7 @@ public class FinanciarDAO {
         }
     }
     
+    //Actualizar todos los financiamientos
     public static ArrayList<Financiar> listarFinanciamiento(){
        
         Connection conPP = ConexionMySQL.conectarPP();

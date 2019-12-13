@@ -34,10 +34,10 @@ public class ControlReportes extends HttpServlet {
         
         ReportesDAO r = new ReportesDAO();
         
-        //final String ruta = "C:\\Users\\Toshiba\\Documents\\NetBeansProjects\\PlanPiso\\web\\archivos";
-        //final String ruta2 = "C:/planpiso/respaldo_archivos";
-        final String ruta = "C:\\glassfish4\\glassfish\\domains\\domain1\\applications\\PlanPiso\\archivos";
+        final String ruta = "C:\\Users\\Toshiba\\Documents\\NetBeansProjects\\PlanPiso\\web\\archivos";
         final String ruta2 = "C:/planpiso/respaldo_archivos";
+        //final String ruta = "C:\\glassfish4\\glassfish\\domains\\domain1\\applications\\PlanPiso\\archivos";
+        //final String ruta2 = "C:/planpiso/respaldo_archivos";
         final Part archivo = request.getPart("reporte");
         nombre_archivo = getFileName(archivo);
         OutputStream salida = null;

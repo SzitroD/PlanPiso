@@ -12,6 +12,7 @@ public class ReportesDAO {
 
     Connection con= ConexionMySQL.conectarPP();
     
+    //Subir un archivo a la base de datos
     public void insertarReporte(String nombreReporte, String ruta,String fecha){
         if(con == null ){
            con = ConexionMySQL.conectarPP();
@@ -39,6 +40,7 @@ public class ReportesDAO {
         }
     }
     
+    //Listar todos los archivos
     public static ArrayList<Reportes> listarReporte(){
         
         Connection conPP = ConexionMySQL.conectarPP();
@@ -78,6 +80,7 @@ public class ReportesDAO {
                 return lista;
     }
     
+    //Buscar un archivo por su nombre
     public static ArrayList<Reportes> buscarReporte(String busqueda){
          
         Connection conPP = ConexionMySQL.conectarPP();
@@ -117,6 +120,7 @@ public class ReportesDAO {
                 return lista;
     }
     
+    //Agregar un archivo de conciliacion 
     public void insertarConciliacion(String nombreReporte, String ruta,String tipo,String financiera,String fecha){
         if(con == null ){
            con = ConexionMySQL.conectarPP();
@@ -146,6 +150,7 @@ public class ReportesDAO {
         }
     }
  
+    //Listar todos los archivos de concilacion
     public static ArrayList<Reportes> listarReporteConciliacion(){
         
         Connection conPP = ConexionMySQL.conectarPP();

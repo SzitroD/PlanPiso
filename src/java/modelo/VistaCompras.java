@@ -51,7 +51,7 @@ public class VistaCompras {
     private int dias;
     private double tasa;
     private double interesVehiculo;
-    
+    private int diasSeguro;
     
     public VistaCompras() {
         this.totalInteres = 0;
@@ -99,9 +99,10 @@ public class VistaCompras {
         this.cf = 0;
         this.statusBanco = 0;
         this.interesExtraReal = 0;
+        this.diasSeguro = 0;
     }
     
-    public VistaCompras(double interesExtraReal,double totalInteres,double totalPago,int dias,double tasa,double interesVehiculo,double totalImporteNeto, double totalCF,int totalVehiculos,double interesReal, String statusFinanciamiento,int statusBanco,double cf,int diasRealesFinanciamiento, String fechaCompra, String marca, String vin, String serie, double valorFactura, double importeNeto, String situacion, String ubicacion, String carteraFinanciera, String status, String factura, String cliente, String idTipoVenta, String tipoVenta, String fechaFactura, double valorVenta, double pagoCliente, double saldo, String db, String fechaCarga, String prioridadPago, String reportadoNVDR, String observaciones, int idBanco, String fechaFinanciamiento, String nombreBanco, int diasFinanciamiento, double interes, int diasExtra, double interesExtra, int diasLibres) {
+    public VistaCompras(int diasSeguro,double interesExtraReal,double totalInteres,double totalPago,int dias,double tasa,double interesVehiculo,double totalImporteNeto, double totalCF,int totalVehiculos,double interesReal, String statusFinanciamiento,int statusBanco,double cf,int diasRealesFinanciamiento, String fechaCompra, String marca, String vin, String serie, double valorFactura, double importeNeto, String situacion, String ubicacion, String carteraFinanciera, String status, String factura, String cliente, String idTipoVenta, String tipoVenta, String fechaFactura, double valorVenta, double pagoCliente, double saldo, String db, String fechaCarga, String prioridadPago, String reportadoNVDR, String observaciones, int idBanco, String fechaFinanciamiento, String nombreBanco, int diasFinanciamiento, double interes, int diasExtra, double interesExtra, int diasLibres) {
         
         this.interesExtraReal = interesExtraReal;
         this.totalInteres = totalInteres;
@@ -148,6 +149,15 @@ public class VistaCompras {
         this.statusBanco = statusBanco;
         this.statusFinanciamiento = statusFinanciamiento;
         this.interesReal = interesReal;
+        this.diasSeguro = diasSeguro;
+    }
+
+    public int getDiasSeguro() {
+        return diasSeguro;
+    }
+
+    public void setDiasSeguro(int diasSeguro) {
+        this.diasSeguro = diasSeguro;
     }
 
     public double getInteresExtraReal() {
