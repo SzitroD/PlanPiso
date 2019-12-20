@@ -4,6 +4,7 @@
     Author     : Toshiba
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dao.FinanciarDAO"%>
@@ -57,15 +58,15 @@
         </div>
     </div>
 
-    <%
+    <%/*
         List<String> listaFinanciera = new ArrayList();
         String[] lista = null;
         int i = 0;
-
+        */
          /*Filtro para identificar el total de financieras existentes y verlas sin que se repitan
                 Ejemplo en vez de inprimir FCA ALFA, FCA FIAT y FCA SEMI, solo se imprime FCA juntando las
                 tres financieras en una sola*/
-        
+        /*
         for(Bancos b: BancosDAO.listarBancos()){
             if(b.getStatus()==1){
                  lista = b.getNombreBanco().split(" ");
@@ -77,7 +78,7 @@
                  }
             }
         }
-    
+    */
     %>
     
     <!-- FORMULARIO PARA SUBIR UN ARCHIVO DE CONCILIACION -->
@@ -86,8 +87,8 @@
         <form class="row justify-content-center" method="post" action="ControlVehiculos" enctype="multipart/form-data" style="padding-bottom: 20px;">
             <label for="financiera" class="tipo-letra exampleFormControlFile1">Elige a que financiera pertenece la conciliacion</label>
             <select id="financiera" name="financiera" class="form-control">
-                <% for(int j = 0; j < listaFinanciera.size(); j++){ %>
-                <option value="<%= listaFinanciera.get(j) %>"> <%= listaFinanciera.get(j) %> </option>
+                <% for(Bancos b: BancosDAO.listarBancos()){ %>
+                <option value="<%= b.getNombreBanco() %>"> <%= b.getNombreBanco() %> </option>
                 <% } %>
             </select>
             <label for="archivo" class="tipo-letra">Seleccione un archivo en formato CSV para la carga de conciliaciones</label>
@@ -132,6 +133,7 @@
                     <% 
                         //Obtener parametro de la busqueda del formulario 
                         String busqueda = request.getParameter("busqueda");
+                        DecimalFormat formateador = new DecimalFormat("###,###,###.00");
                         for(Vehiculo v : VehiculosDAO.buscarVehiculo(busqueda)){
                             
                             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -144,8 +146,8 @@
                         <td> <%= v.getSerie() %> </td>
                         <td> <%= v.getVin() %> </td>
                         <td> <%= v.getMarca() %> </td>
-                        <td> <%= v.getValorFactura() %> </td>
-                        <td> <%= v.getImporteNeto() %> </td>
+                        <td> $<%= formateador.format(v.getValorFactura()) %> </td>
+                        <td> $<%= formateador.format(v.getImporteNeto()) %> </td>
                         <td> 
                             <!-- FORMULARIO PARA FINANCIAR UN VEHICULO -->
                             <form class="form-financiar" action="ControlVehiculos" method="post" enctype="multipart/form-data">

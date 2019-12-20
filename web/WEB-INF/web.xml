@@ -56,6 +56,10 @@
         <servlet-name>ControlPagados</servlet-name>
         <servlet-class>control.ControlPagados</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControlConciliacion</servlet-name>
+        <servlet-class>control.ControlConciliacion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>ControlPagados</servlet-name>
         <url-pattern>/ControlPagados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControlConciliacion</servlet-name>
+        <url-pattern>/ControlConciliacion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

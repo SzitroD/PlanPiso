@@ -4,6 +4,7 @@
     Author     : Toshiba
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="dao.VistasDAO"%>
 <%@page import="modelo.VistaCompras"%>
 <%@page import="dao.BancosDAO"%>
@@ -59,19 +60,24 @@
                     <th>Dias de Financiamiento</th>
                     <th class="interes">Interes Actual %</th>
                     <th>Dias Refinanciamiento</th>
-                    <th class="interes">Interes por dia de Refinanciamiento %</th>
+                    <th>Interes por dia de Refinanciamiento %</th>
+                    <th>Linea</th>
                     <th colspan="2">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <% for(Bancos b : BancosDAO.listarBancos()){ %>
+                <% 
+        
+                DecimalFormat formateador = new DecimalFormat("###,###,###,###.00");
+                for(Bancos b : BancosDAO.listarBancos()){ %>
                 <tr>
                     <td> <%= b.getNombreBanco() %> </td>
                     <td> <%= b.getDiasLibres() %> </td>
                     <td> <%= b.getDiasFinanciamiento() %> </td>
-                    <td class="interes"> <%= b.getInteres() %> </td>
+                    <td> <%= formateador.format(b.getInteres()) %> </td>
                     <td> <%= b.getDiasExtra() %> </td>
-                    <td class="interes"> <%= b.getInteresExtra() %> </td>
+                    <td> <%= formateador.format(b.getInteresExtra()) %> </td>
+                    <td> $<%= formateador.format(b.getLinea()) %> </td>
                     <td>
                         <!-- FORMULARIO PARA MODIFICAR FINANCIERAS -->
                         <form action="ControlBanco" method="post" class="form-mod-interes">
@@ -82,6 +88,7 @@
                             <input type="hidden" name="diasExt" value="<%= b.getDiasExtra() %>">
                             <input type="hidden" name="interesExt" value="<%= b.getInteresExtra() %>">
                             <input type="hidden" name="diasLibres" value="<%= b.getDiasLibres() %>">
+                            <input type="hidden" name="linea" value="<%= b.getLinea() %>">
                             <input type="submit" class="btn btn-warning" name="accion" value="Modificar">
                         </form>
                     </td>

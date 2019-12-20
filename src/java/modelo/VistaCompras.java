@@ -41,7 +41,8 @@ public class VistaCompras {
     private double interesExtra;
     private int diasLibres;
     private int statusBanco;
-
+    private double linea;
+    
     private double totalCF;
     private int totalVehiculos;
     private double totalImporteNeto;
@@ -100,10 +101,12 @@ public class VistaCompras {
         this.statusBanco = 0;
         this.interesExtraReal = 0;
         this.diasSeguro = 0;
+        this.linea = 0;
     }
     
-    public VistaCompras(int diasSeguro,double interesExtraReal,double totalInteres,double totalPago,int dias,double tasa,double interesVehiculo,double totalImporteNeto, double totalCF,int totalVehiculos,double interesReal, String statusFinanciamiento,int statusBanco,double cf,int diasRealesFinanciamiento, String fechaCompra, String marca, String vin, String serie, double valorFactura, double importeNeto, String situacion, String ubicacion, String carteraFinanciera, String status, String factura, String cliente, String idTipoVenta, String tipoVenta, String fechaFactura, double valorVenta, double pagoCliente, double saldo, String db, String fechaCarga, String prioridadPago, String reportadoNVDR, String observaciones, int idBanco, String fechaFinanciamiento, String nombreBanco, int diasFinanciamiento, double interes, int diasExtra, double interesExtra, int diasLibres) {
+    public VistaCompras(double linea,int diasSeguro,double interesExtraReal,double totalInteres,double totalPago,int dias,double tasa,double interesVehiculo,double totalImporteNeto, double totalCF,int totalVehiculos,double interesReal, String statusFinanciamiento,int statusBanco,double cf,int diasRealesFinanciamiento, String fechaCompra, String marca, String vin, String serie, double valorFactura, double importeNeto, String situacion, String ubicacion, String carteraFinanciera, String status, String factura, String cliente, String idTipoVenta, String tipoVenta, String fechaFactura, double valorVenta, double pagoCliente, double saldo, String db, String fechaCarga, String prioridadPago, String reportadoNVDR, String observaciones, int idBanco, String fechaFinanciamiento, String nombreBanco, int diasFinanciamiento, double interes, int diasExtra, double interesExtra, int diasLibres) {
         
+        this.linea = linea;
         this.interesExtraReal = interesExtraReal;
         this.totalInteres = totalInteres;
         this.totalPago = totalPago;
@@ -150,6 +153,14 @@ public class VistaCompras {
         this.statusFinanciamiento = statusFinanciamiento;
         this.interesReal = interesReal;
         this.diasSeguro = diasSeguro;
+    }
+
+    public double getLinea() {
+        return linea;
+    }
+
+    public void setLinea(double linea) {
+        this.linea = linea;
     }
 
     public int getDiasSeguro() {

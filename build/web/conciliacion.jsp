@@ -67,27 +67,24 @@
     
     <%
         /*Variables para calcular el total de cada columna en la tabla*/
-        int total_unidad = 0;
-        int diferencia_vehiculos = 0;
-        double total_cf = 0;
-        double total_neto = 0;
-        double total_interes = 0;
+        double diferenciaLinea = 0;
+        double totalPromedio = 0;
+        int i = 0;
         DecimalFormat formateador = new DecimalFormat("###,###,###.00");
 
 
     %>
             
-    <div id="contenedor-excel-conciliacion" class="container bg-light" style="margin-bottom: 80px; padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
-        <%
+    <form method="post" action="ControlConciliacion" id="contenedor-excel-conciliacion" class="container bg-light" style="margin-bottom: 80px; padding-bottom: 10px; border-left: 2px solid #DFDFDF; border-right: 2px solid #DFDFDF">
+        <%/*
                 List<String> listaFinanciera = new ArrayList();
                 String[] lista = null;
-                int i = 0;
-                double diferenciaConciliacion = 0;   
+                int i = 0;*/
                 
                 /*Filtro para identificar el total de financieras existentes y verlas sin que se repitan
                 Ejemplo en vez de inprimir FCA ALFA, FCA FIAT y FCA SEMI, solo se imprime FCA juntando las
                 tres financieras en una sola*/
-                
+                /*
                 for(Bancos b: BancosDAO.listarBancos()){
                    if(b.getStatus()==1){
                         lista = b.getNombreBanco().split(" ");
@@ -99,13 +96,16 @@
                         }
                     }
                 }
-                /*Imprime la tabla con cada valor que encuentre en listaFinanciera*/
-                for(int j = 0;j < listaFinanciera.size();j++){
-               %>
+                */
+                
+        for(Bancos b : BancosDAO.listarBancos()){
+            if(b.getStatus() == 1){
+                
+        %>
         <div class="container">
             <div class="row align-items-center justify-content-start h-100">
                 <h4  class="text-dark tipo-letra">
-                     <%= listaFinanciera.get(j) %>
+                     <%= b.getNombreBanco() %>
                 </h4>
             </div>
         </div>
@@ -116,40 +116,17 @@
             <table class="table-responsive table table-striped table-bordered tipo-letra text-center " style="width: 100%;">
                 <thead>
                     <tr>
-                        <th colspan="5"><%= listaFinanciera.get(j) %></th> 
+                        <th colspan="3"><%= b.getNombreBanco() %></th> 
                     </tr>
                     <tr>
                         <th>Resumen de</th>
                         <th>Total Unidades</th>
-                        <th>Total Importe Neto</th>
-                        <th>Total Interes</th>
-                        <th>Total CF</th>
+                        <th>Linea</th>
                     </tr>
                 </thead>
                 <tbody>
                 <%
-                
-                /*Filtra y calcula cada vehiculo para que pertenesca a la financiera que corresponde en listaFinanciera
-                Ejemplo: Los vehiculos de FCA SEMi, FCA ALFA y FCA FIAT se guardaran en FCA de listaFinanciera*/
-                    for(VistaCompras v : VistasDAO.listas_conciliacion()){
-                         if(v.getNombreBanco().indexOf(listaFinanciera.get(j)) == 0){ 
-                            if(v.getTotalVehiculos() > 0){
-                                total_unidad += v.getTotalVehiculos();
-                                total_neto += v.getTotalImporteNeto();   
-                                total_interes += v.getTotalInteres();
-                                total_cf += v.getTotalCF();
-                            }
-                         }
-                    }
-                    %>
-                     <tr>
-                        <td class="td-resultado"> Continental </td>
-                        <td> <%= total_unidad %> </td>
-                        <td> $<%= formateador.format(total_neto) %> </td>
-                        <td> $<%= formateador.format(total_interes) %> </td>
-                        <td> $<%= formateador.format(total_cf) %> </td>
-                    </tr>
-                    <%
+                    i++;
                     /*Filtro que identifica a que grupo de financiera se le va a asignar el archivo de conciliacion (archivo csv) previamente 
                     subido en la seccion Financiar (vehiculos.jsp)*/
                     
@@ -167,7 +144,7 @@
                         for(Reportes r: ReportesDAO.listarReporteConciliacion()){
                         
                             //Identifica el nombre de la financiera
-                            if(r.getConciliacion().indexOf(listaFinanciera.get(j))==0){
+                            if(r.getConciliacion().indexOf(b.getNombreBanco())==0){
                                 
                                 try {
                                     //Selecciona el archivo que tenga el nombre de la financiera
@@ -202,43 +179,63 @@
                             }
                         }
                         
-                        diferenciaConciliacion = total_cf - totalCfConciliacion;
                     %>
                     <tr>
-                        <td class="td-resultado"> Conciliacion Banco </td>
+                        <td> Continental </td>
                         <td> <%= totalVehiculosConciliacion %> </td>
-                        <td>  </td>
-                        <td>  </td>
                         <td> $<%= formateador.format(totalCfConciliacion) %> </td>
                     </tr>
-                    <%
-                        diferencia_vehiculos = total_unidad - totalVehiculosConciliacion;
+                    <tr>
+                        <td> Pagadas por Facturar </td>
+                        <td> <input type="text" name="pxf_<%= i %>" value="<%= b.getPxf() %>"> </td>
+                        <td> <input type="text" name="valorPxf_<%= i %>" value="<%= b.getValorPxf() %>"> 
+                             <input type="hidden" name="id_<%= i %>" value="<%= b.getIdBancos() %>"> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Pagadas </td>
+                        <td> <input type="text" name="pagadas_<%= i %>" value="<%= b.getPagadas() %>"> </td>
+                        <td> <input type="text" name="valorPagadas_<%= i %>" value="<%= b.getValorPagadas() %>"> </td>
+                    </tr>
+                    <%  
+                        totalPromedio = totalCfConciliacion + b.getValorPxf() + b.getValorPagadas();  
                     %>
                     <tr>
-                        <td> Diferencia </td>
-                        <td> <%= diferencia_vehiculos %> </td>
-                        <td></td>
-                        <td></td>
-                        <td> $<%= formateador.format(diferenciaConciliacion) %> </td>
+                        <td colspan="2"> Total </td>
+                        <td> $<%= formateador.format(totalPromedio) %> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"> Linea <%= b.getNombreBanco() %> </td>
+                        <td> $<%= formateador.format(b.getLinea()) %> </td>
+                    </tr>
+                    <%
+                        diferenciaLinea = b.getLinea() - totalPromedio;
+                    %>
+                    <tr>
+                        <td colspan="2"> Linea disponible </td>
+                        <td> $<%= formateador.format(diferenciaLinea) %> </td>
                     </tr>
                 </tbody>
             </table>
                      <%
                     /*Devolver los valores a su inicio para que no afecte a la 
                         siguiente tabla a calcular*/
-                        total_unidad = 0; 
-                        total_cf = 0;
-                        total_neto = 0;
-                        total_interes = 0;
                         totalCfConciliacion = 0;
                         totalVehiculosConciliacion = 0;
-                        diferenciaConciliacion = 0;
+                        diferenciaLinea = 0;
+                        totalPromedio = 0;
                 %>      
         </div>
             <%          
-               }
+                }
+            }
             %>
-    </div>
+        <div class="col-12 text-center d-flex justify-content-center align-items-center" style="height: 70px;">
+            <input type="hidden" name="repeticiones" value="<%= i %>">
+            <input class="btn btn-success" type="submit" name="accion" value="Guardar" style="margin: 10px;">
+        </div>
+    </form>
+    
     <%@include file="footer.jsp" %>
  
     

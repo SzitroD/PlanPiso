@@ -54,10 +54,11 @@ public class ControlBanco extends HttpServlet {
         double interesExtra = Double.parseDouble(request.getParameter("interesExtra"));
         int diasExtra = Integer.parseInt(request.getParameter("diasExtra"));
         int diasLibres = Integer.parseInt(request.getParameter("diasLibres"));
+        double linea = Double.parseDouble(request.getParameter("linea"));
         
         BancosDAO b = new BancosDAO();
         
-        b.insertarBanco(nombBanco, interes, diasInteres, diasExtra, interesExtra,diasLibres);
+        b.insertarBanco(nombBanco, interes, diasInteres, diasExtra, interesExtra,diasLibres,linea);
         
         request.getRequestDispatcher("financiera.jsp").forward(request, response);
     }
@@ -72,10 +73,11 @@ public class ControlBanco extends HttpServlet {
         int diasExt = Integer.parseInt(request.getParameter("diasExtra"));
         double interesExt = Double.parseDouble(request.getParameter("interesExtra"));
         int diasLibres = Integer.parseInt(request.getParameter("diasLibres"));
+        double linea = Double.parseDouble(request.getParameter("linea"));
 
         BancosDAO b = new BancosDAO();
 
-        b.modificarBanco(nombreBanco,interes,diasFinan,diasExt,interesExt,id,diasLibres);
+        b.modificarBanco(nombreBanco,interes,diasFinan,diasExt,interesExt,id,diasLibres,linea);
 
         //System.out.println("Financiera Actualizada");
         request.getRequestDispatcher("financiera.jsp").forward(request, response);

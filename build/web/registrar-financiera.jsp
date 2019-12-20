@@ -48,6 +48,8 @@
             <input class="form-control" id="interesExtra" type="text" name="interesExtra">
             <label for="diasLibres">Cantidad de dias libre de interes: </label>
             <input class="form-control" id="diasLibres" type="text" name="diasLibres">
+            <label for="linea">Cantidad de linea dispinible</label>
+            <input class="form-control" id="linea" type="text" name="linea">
             <div class="row w-100 align-items-center justify-content-center">
                 <input type="submit" class="btn btn-danger" style="margin: 10px;" name="accion" value="Cancelar">
                 <input type="submit" class="btn btn-primary" style="margin: 10px;" name="accion" value="Registrar">

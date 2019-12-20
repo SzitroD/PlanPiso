@@ -85,6 +85,7 @@ public class VistasDAO {
                     v.setTasa(rs.getDouble("tasa"));
                     v.setInteresVehiculo(rs.getDouble("interes_vehiculo"));
 
+                    v.setLinea(rs.getDouble("linea"));
                     lista.add(v);
                 }
             }catch(SQLException e){
@@ -175,6 +176,7 @@ public class VistasDAO {
                     v.setTasa(rs.getDouble("tasa"));
                     v.setInteresVehiculo(rs.getDouble("interes_vehiculo"));
 
+                    v.setLinea(rs.getDouble("linea"));
                     lista.add(v);
                 }
             }catch(SQLException e){
@@ -258,7 +260,7 @@ public class VistasDAO {
         if(conPP != null){
         try{
             String SQL = 
-                "SELECT id_banco,nombreBanco,prioridad_pago, sum(cf) as total_cf, count(vin) as total_vehiculos,\n" +
+                "SELECT id_banco,linea,nombreBanco,prioridad_pago, sum(cf) as total_cf, count(vin) as total_vehiculos,\n" +
                 "case\n" +
                 "	when dias <= vista_general.dias_reales and statusFinanciamiento != 'REFINANCIADA' then vista_general.interes_real/100\n" +
                 "	when dias = 0 and statusFinanciamiento != 'REFINANCIADA' then 0/100\n" +
@@ -297,7 +299,7 @@ public class VistasDAO {
                 v.setTotalInteres(rs.getDouble("total_interes"));
                 v.setTotalImporteNeto(rs.getDouble("total_pago_neto"));
                 v.setTotalPago(rs.getDouble("total_pago"));
-                
+                v.setLinea(rs.getDouble("linea"));
                 lista.add(v);
             }
             return lista;
@@ -389,6 +391,7 @@ public class VistasDAO {
                     v.setTasa(rs.getDouble("tasa"));
                     v.setInteresVehiculo(rs.getDouble("interes_vehiculo"));
 
+                    v.setLinea(rs.getDouble("linea"));
                     lista.add(v);
                 }
             }catch(SQLException e){
@@ -478,7 +481,7 @@ public class VistasDAO {
                     v.setDias(rs.getInt("dias"));
                     v.setTasa(rs.getDouble("tasa"));
                     v.setInteresVehiculo(rs.getDouble("interes_vehiculo"));
-
+                    v.setLinea(rs.getDouble("linea"));
                     lista.add(v);
                 }
             }catch(SQLException e){
@@ -687,6 +690,7 @@ public class VistasDAO {
                     v.setTasa(rs.getDouble("tasa"));
                     v.setInteresVehiculo(rs.getDouble("interes_vehiculo"));
 
+                    v.setLinea(rs.getDouble("linea"));
                     lista.add(v);
                 }
             }catch(SQLException e){
@@ -777,6 +781,7 @@ public class VistasDAO {
                     v.setTasa(rs.getDouble("tasa"));
                     v.setInteresVehiculo(rs.getDouble("interes_vehiculo"));
 
+                    v.setLinea(rs.getDouble("linea"));
                     lista.add(v);
                 }
             }catch(SQLException e){

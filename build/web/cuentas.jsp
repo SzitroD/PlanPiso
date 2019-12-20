@@ -103,7 +103,6 @@
                         <th>Total Importe Neto</th>
                         <th>Total Interes</th>
                         <th>Total Pago</th>
-                        <th>Total CF</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -115,7 +114,6 @@
                             total_unidad += v.getTotalVehiculos();
                             total_neto += v.getTotalImporteNeto();   
                             total_interes += v.getTotalInteres();
-                            total_cf += v.getTotalCF();
                             total_pago += v.getTotalPago();
             %>
                     <tr>
@@ -124,7 +122,6 @@
                         <td> $<%= formateador.format(v.getTotalImporteNeto()) %> </td>
                         <td> $<%= formateador.format(v.getTotalInteres()) %> </td>
                         <td> $<%= formateador.format(v.getTotalPago()) %> </td>
-                        <td> $<%= formateador.format(v.getTotalCF())  %> </td>
                     </tr>
                 <%      
                             }
@@ -138,14 +135,12 @@
                         <td> $<%= formateador.format(total_neto) %> </td>
                         <td> $<%= formateador.format(total_interes) %> </td>
                         <td> $<%= formateador.format(total_pago) %> </td>
-                        <td> $<%= formateador.format(total_cf) %> </td>
                     </tr>
                     </tbody>
                 </table>
                         <%/*Devolver los valores a su inicio para que no afecte a la 
                         siguiente tabla a calcular*/
                         total_unidad = 0; 
-                        total_cf = 0;
                         total_neto = 0;
                         total_interes = 0;
                         total_pago= 0;
@@ -163,7 +158,6 @@
             int total_u = 0;
             double total_i = 0;
             double total_p = 0;
-            double total_c = 0;
             double total_n = 0;
                
             for(Bancos b: BancosDAO.listarBancos()){
@@ -193,7 +187,6 @@
                         <th>Importe a Pagar NETO</th>
                         <th>Interes a Pagar</th>
                         <th>Importe Total a Pagar</th>
-                        <th>CF</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,7 +198,6 @@
                         total_n += v.getImporteNeto();
                         total_i += v.getInteres();
                         total_p += v.getTotalPago();
-                        total_c += v.getCf();
                 %>
                     <tr>
                         <td> <%= v.getVin() %> </td>
@@ -214,7 +206,6 @@
                         <td> $<%= formateador.format(v.getImporteNeto()) %> </td>
                         <td> $<%= formateador.format(v.getInteres()) %> </td>
                         <td> $<%= formateador.format(v.getTotalPago()) %> </td>
-                        <td> $<%= formateador.format(v.getCf()) %> </td>
                     </tr>
                 <%      }  
                     }
@@ -227,14 +218,12 @@
                         <td> $<%= formateador.format(total_n) %> </td>
                         <td> $<%= formateador.format(total_i) %> </td>
                         <td> $<%= formateador.format(total_p) %> </td>
-                        <td> $<%= formateador.format(total_c) %> </td>
                     </tr>
                     </tbody>
                 </table>
                    <%/*Devolver los valores a su inicio para que no afecte a la 
                         siguiente tabla a calcular*/
                         total_u = 0; 
-                        total_c = 0;
                         total_n = 0;
                         total_i = 0;
                         total_p= 0;

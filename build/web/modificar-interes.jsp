@@ -16,11 +16,12 @@
         //Parametros por defecto de la financiera
         int id = Integer.parseInt(request.getParameter("id"));
         String nombreBanco = request.getParameter("nomBanco");
-        double interes = Float.parseFloat(request.getParameter("interes"));
+        double interes = Double.parseDouble(request.getParameter("interes"));
         int diasFinan = Integer.parseInt(request.getParameter("diasFinan"));
         int diasExt = Integer.parseInt(request.getParameter("diasExt"));
-        double interesExt = Float.parseFloat(request.getParameter("interesExt"));
+        double interesExt = Double.parseDouble(request.getParameter("interesExt"));
         int diasLibres = Integer.parseInt(request.getParameter("diasLibres"));
+        double linea = Double.parseDouble(request.getParameter("linea"));
 
 %>
 <!DOCTYPE html>
@@ -53,6 +54,8 @@
             <input class="form-control" type="text" id="interesExtra" name="interesExtra" value="<%= interesExt %>" placeholder="25%" required>
             <label for="diasLibres">Cantidad de dias libre de interes: </label>
             <input class="form-control" type="text" id="diasLibres" name="diasLibres" value="<%= diasLibres %>">
+            <label for="linea">Cantidad de linea dispinible</label>
+            <input class="form-control" id="linea" type="text" name="linea" value="<%= linea %>">
             <div class="row w-100 align-items-center justify-content-center">
                 <input type="submit" class="btn btn-danger" name="accion" value="Cancelar" style="margin: 10px;">
                 <input type="submit" class="btn btn-primary" name="accion" value="Actualizar" style="margin: 10px;">

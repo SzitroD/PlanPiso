@@ -38,6 +38,11 @@ public class BancosDAO {
                     b.setInteresExtra(rs.getDouble("interesExtra"));
                     b.setDiasLibres(rs.getInt("diasLibres"));
                     b.setStatus(rs.getInt("status"));
+                    b.setLinea(rs.getDouble("linea"));
+                    b.setPxf(rs.getInt("pxf"));
+                    b.setValorPxf(rs.getDouble("valor_pxf"));
+                    b.setPagadas(rs.getInt("pagadas"));
+                    b.setValorPagadas(rs.getDouble("valor_pagadas"));
                     lista.add(b);
                 }
 
@@ -56,7 +61,7 @@ public class BancosDAO {
     }
     
     //Actualizar las propiedades de una financiera 
-    public void modificarBanco(String nombre, double interes, int dias, int diasExtra, double interesExtra,int id,int diasLibres){
+    public void modificarBanco(String nombre, double interes, int dias, int diasExtra, double interesExtra,int id,int diasLibres,double linea){
         if(con == null ){
             con = ConexionMySQL.conectarPP();
         }
@@ -68,16 +73,18 @@ public class BancosDAO {
                         +   "diasFinanciamiento = ?,"
                         +   "diasExtra = ?,"
                         +   "interesExtra = ?,"
-                        +   "diasLibres = ? "
+                        +   "diasLibres = ?, "
+                        +   "linea = ? "
                         +   "WHERE idBancos = ?";
                 PreparedStatement ps = con.prepareStatement(SQL);
-                ps.setInt(7, id);
+                ps.setInt(8, id);
                 ps.setString(1, nombre);
                 ps.setDouble(2, interes);
                 ps.setInt(3, dias);
                 ps.setInt(4, diasExtra);
                 ps.setDouble(5, interesExtra);
                 ps.setInt(6, diasLibres);
+                ps.setDouble(7, linea);
 
                 ps.executeUpdate();
 
@@ -94,14 +101,14 @@ public class BancosDAO {
     }
     
     //Insertar una nueva financiera 
-    public void insertarBanco(String nombreBanco,double interes, int diasInteres, int diasExtra, double interesExtra, int diasLibres){
+    public void insertarBanco(String nombreBanco,double interes, int diasInteres, int diasExtra, double interesExtra, int diasLibres,double linea){
          if(con == null ){
             con = ConexionMySQL.conectarPP();
         }
         if(con != null){
             try{
-                String SQL = "INSERT INTO bancos (nombreBanco, interes, diasFinanciamiento, diasExtra, interesExtra, diasLibres) "
-                        + "VALUES (?,?,?,?,?,?)";
+                String SQL = "INSERT INTO bancos (nombreBanco, interes, diasFinanciamiento, diasExtra, interesExtra, diasLibres, linea) "
+                        + "VALUES (?,?,?,?,?,?,?)";
 
                 PreparedStatement ps = con.prepareStatement(SQL);
 
@@ -111,6 +118,7 @@ public class BancosDAO {
                 ps.setInt(4, diasExtra);
                 ps.setDouble(5, interesExtra);
                 ps.setInt(6, diasLibres);
+                ps.setDouble(7,linea);
 
                 ps.executeUpdate();
 
@@ -168,6 +176,40 @@ public class BancosDAO {
                 ps.executeUpdate();
             }catch(SQLException e){
                 System.out.println("Error al desactivar: "+e.getLocalizedMessage());
+            }finally {
+                try {
+                    con.close();
+                } catch (SQLException ee) {
+                    System.out.println("SQL ERROR-2 " + ee.getSQLState() + ee.getMessage());
+                }
+            }
+        }
+    }
+    
+    //Actualizar las propiedades de una conciliacion
+    public void actializarConciliacion(int pxf, double valorPxf, int pagadas, double valorPagadas, int id){
+        if(con == null ){
+            con = ConexionMySQL.conectarPP();
+        }
+        if(con != null){
+            try{
+                String SQL = "UPDATE bancos SET "
+                        +   "pxf = ?,"
+                        +   "valor_pxf = ?,"
+                        +   "pagadas = ?,"
+                        +   "valor_pagadas = ? "
+                        +   "WHERE idBancos = ?";
+                PreparedStatement ps = con.prepareStatement(SQL);
+                ps.setInt(5, id);
+                ps.setInt(1, pxf);
+                ps.setDouble(2, valorPxf);
+                ps.setInt(3, pagadas);
+                ps.setDouble(4, valorPagadas);
+
+                ps.executeUpdate();
+
+            }catch(SQLException e){
+                System.out.println("Error al actualizar la conciliacion: "+e.getLocalizedMessage());
             }finally {
                 try {
                     con.close();
